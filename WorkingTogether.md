@@ -28,7 +28,7 @@ other tools to give the desired results.
 
 ## tools
 ### mkdoc
-The `mkdoc` tool assumes that a binary has been built using the param package
+The `mkdoc` tool assumes that a program is using the param package
 (`github.com/nickwells/param.mod/v5/param`). It will build an instance of the
 binary for the directory it is running in (which must contain a main package)
 and then run the program passing parameters `-help-format markdown` and
