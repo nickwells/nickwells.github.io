@@ -6,6 +6,11 @@ you build software and to work with the by-products of that software.
 They also work with the packages given in the other repositories under
 github.com/nickwells.
 
+Importantly, they all use the `param` package so for any of the commands you
+can get an extensive usage message which will not only document the available
+parameters but also show examples of how to use the command, suggest other
+sources of information and give notes on the program.
+
 ## standards - why they're worth having and some suggestions
 The benefit of having a standard way of building your applications and
 arranging your code is that it makes it easier for you to write tools that
