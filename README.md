@@ -1,3 +1,3 @@
 # nickwells.github.io
 ## Blog
-- [Working together](WorkingTogether.md) - a description of how these packages and utilities work together
+- [Working together](WorkingTogether.md) - a description of how the packages and utilities under github.com/nickwells work together

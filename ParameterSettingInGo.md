@@ -4,7 +4,12 @@ This is a discussion of how program parameters (or flags) can be set in
 Go. There are a variety of packages available to the programmer for doing
 this. Obviously we have the flag package that comes with the Go standard
 library but [awesome-go](https://github.com/avelino/awesome-go) lists many
-others. I'll be talking about what you want from a configuration package, describing the requirements from the perspective of the consumers of the package
+others. I'll be talking about what you want from a configuration package,
+describing the requirements from the perspective of the consumers of the
+package.
+
+Having set the scene I'll write a simple program using several different
+packages and compare them.
 
 ## Requirements of a configuration package
 
@@ -83,9 +88,13 @@ set this parameter so it will have its default value" but it has been set
 elsewhere and the user has forgotten, or never knew. It is very useful if you
 can see where they have been set without having to check each of the sources
 by hand. This problem typically only arises where there are alternative
-sources of parameters such as environment variables or configuration files.
+sources of parameters such as environment variables or configuration
+files. It is especially useful when one of the configuration files is shared
+amongst many users or if the environment variables are set in some shared
+configuration.
 
 * Shell parameter completion mechanisms
 
 it's very convenient to be able to use the shell completion features and this
-can also provide an immediate help feature showing what is available.
+can also provide an immediate help feature showing what is available as you
+type the command.
