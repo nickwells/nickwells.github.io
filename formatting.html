@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2021-04-14 Wed 15:41 -->
+<!-- 2021-06-06 Sun 09:02 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Go Recipes - Formatting Output</title>
@@ -193,12 +193,12 @@
   .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js"></script>
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+<script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
 <script type="text/javascript">
 // @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
 <!--/*--><![CDATA[/*><!--*/
@@ -229,30 +229,782 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgddeb89c">Formatting Output</a>
+<li><a href="#orgc34e584">Formatting Output</a>
 <ul>
-<li><a href="#org5654481">Wrapping text</a></li>
-<li><a href="#orge512a2c">Tabulating data</a></li>
+<li><a href="#org3030233">Custom formatting of data types</a>
+<ul>
+<li><a href="#orga863f8d">Summary</a></li>
+<li><a href="#orgdc1714d">References</a></li>
+</ul>
+</li>
+<li><a href="#org40cc069">Custom formatting of the Go-syntax representation</a>
+<ul>
+<li><a href="#org809401e">Summary</a></li>
+<li><a href="#org166721a">References</a></li>
+</ul>
+</li>
+<li><a href="#org59af1b0">Complete control over formatting</a>
+<ul>
+<li><a href="#orgfc2033b">Summary</a></li>
+<li><a href="#org7906b73">References</a></li>
+</ul>
+</li>
+<li><a href="#orgf2cc148">Wrapping text</a>
+<ul>
+<li><a href="#orgce7340c">Summary</a></li>
+<li><a href="#org0ed75b7">Discussion</a></li>
+<li><a href="#org8015e2b">References</a></li>
+</ul>
+</li>
+<li><a href="#org24516f2">Tabulating data</a>
+<ul>
+<li><a href="#orgadb96ab">Summary</a></li>
+<li><a href="#orga3902f3">Discussion</a></li>
+<li><a href="#org7d4ea1d">References</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgddeb89c" class="outline-2">
-<h2 id="orgddeb89c">Formatting Output</h2>
-<div class="outline-text-2" id="text-orgddeb89c">
+<div id="outline-container-orgc34e584" class="outline-2">
+<h2 id="orgc34e584">Formatting Output</h2>
+<div class="outline-text-2" id="text-orgc34e584">
+<p>
+These recipes offer some tips for formatting Go output. We first dicuss
+some less well known features of the standard fmt package and then go on to
+discuss some ways of formatting your output that the fmt package doesn't
+offer.
+</p>
+
+<p>
+For other recipes <a href="gorecipes.html">see here</a>.
+</p>
 </div>
-<div id="outline-container-org5654481" class="outline-3">
-<h3 id="org5654481">Wrapping text</h3>
+<div id="outline-container-org3030233" class="outline-3">
+<h3 id="org3030233">Custom formatting of data types</h3>
+<div class="outline-text-3" id="text-org3030233">
 </div>
-<div id="outline-container-orge512a2c" class="outline-3">
-<h3 id="orge512a2c">Tabulating data</h3>
+<div id="outline-container-orga863f8d" class="outline-4">
+<h4 id="orga863f8d">Summary</h4>
+<div class="outline-text-4" id="text-orga863f8d">
+<p>
+The <a href="http://golang.org/package/fmt">fmt</a> package is the standard tool you should use for formatting output
+but you can extend it and tune the behaviour for your specific needs. The
+simplest way to adjust the output that fmt will produce is to write a
+'String' method for your type as follows.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">  type Location struct{
+	file string
+	line int
+  }
+
+// String returns a string representing the contents of the Location
+func (l Location)String() string {
+      return l.file + ":" + strconv.Itoa(l.line)
+}
+</pre>
+</div>
+
+<p>
+If you are using gosh to run the code you will need to use the 'global'
+parameter for the code shown above.
+</p>
+
+<p>
+Then when you print the value you will see it has been formatted using
+the 'String' method.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">  l := Location{
+	file: "main.go",
+	line: 42,
+  }
+
+fmt.Println("Println:", l)
+fmt.Printf("     %%s:  %s\n", l)
+fmt.Printf("     %%v:  %v\n", l)
+fmt.Printf("     %%+v: %+v\n", l)
+fmt.Printf("     %%#v: %#v\n", l)
+</pre>
+</div>
+
+<p>
+Try calling this with and without the String method declared.
+</p>
+
+<p>
+The String method is a useful way of controlling how your types are
+displayed. It is used to produce the output from the formats "%v"
+and "%+v" (or "%s").
+</p>
+</div>
+</div>
+<div id="outline-container-orgdc1714d" class="outline-4">
+<h4 id="orgdc1714d">References</h4>
+<div class="outline-text-4" id="text-orgdc1714d">
+<p>
+see the standard package <a href="https://golang.org/pkg/fmt">fmt</a>
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org40cc069" class="outline-3">
+<h3 id="org40cc069">Custom formatting of the Go-syntax representation</h3>
+<div class="outline-text-3" id="text-org40cc069">
+</div>
+<div id="outline-container-org809401e" class="outline-4">
+<h4 id="org809401e">Summary</h4>
+<div class="outline-text-4" id="text-org809401e">
+<p>
+The String method on a type is used, if it exists, by the fmt package to
+display a value in a lot of cases. The "%#v" format though will not use
+this, to change the way that the Go-syntax representation appears you
+need to provide a GoString method for your type. You might want to
+provide this method to hide secret credentials so that they don't appear
+in log files for instance. For this use case remember that you'll also
+need to provide a String method. Also be aware that this is not
+sufficient to prevent the secret from being exposed but it might help to
+avoid accidental exposure.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">  type Secret struct{
+	username string
+	password string
+  }
+
+// String returns a string representing the contents of the Secret
+func (s Secret)String() string {
+      return s.username
+}
+
+// GoString returns a string representing the contents of the Secret
+// in a Go-syntax representation
+func (s Secret)GoString() string {
+      return `main.Secret{username:"` + s.username + `", password: "..."}`
+}
+</pre>
+</div>
+
+<p>
+Then when you print the value you will see it has been formatted using
+the GoString method.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">  s := Secret{
+	username: "Nick",
+	password: "TopSecret",
+  }
+
+fmt.Println("Println:", s)
+fmt.Printf("     %%s:  %s\n", s)
+fmt.Printf("     %%v:  %v\n", s)
+fmt.Printf("     %%+v: %+v\n", s)
+fmt.Printf("     %%#v: %#v\n", s)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org166721a" class="outline-4">
+<h4 id="org166721a">References</h4>
+<div class="outline-text-4" id="text-org166721a">
+<p>
+see the standard package <a href="https://golang.org/pkg/fmt">fmt</a>
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org59af1b0" class="outline-3">
+<h3 id="org59af1b0">Complete control over formatting</h3>
+<div class="outline-text-3" id="text-org59af1b0">
+</div>
+<div id="outline-container-orgfc2033b" class="outline-4">
+<h4 id="orgfc2033b">Summary</h4>
+<div class="outline-text-4" id="text-orgfc2033b">
+<p>
+If you need complete control over the display of your value you can
+provide a Format method. This gives your formatting code access to the
+values of the width and precision options and to the flags and the verb
+chosen to print. It is the most complicated to use but gives you the most
+control over formatting.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">type Secret struct{
+	username string
+	password string
+  }
+
+// Format formats a Secret
+func (s Secret)Format(f fmt.State, verb rune) {
+	switch verb {
+	case 'z':
+		fmtStr := "Secret for %"
+		if wid, ok := f.Width(); ok {
+			fmtStr += strconv.Itoa(wid)
+		}
+		if prec, ok := f.Precision(); ok {
+			fmtStr += "." + strconv.Itoa(prec)
+		}
+		fmtStr += "s"
+		f.Write([]byte(fmt.Sprintf(fmtStr, s.username)))
+	default:
+		f.Write([]byte("%!"+string(verb)+"(Secret)"))
+	}
+}
+</pre>
+</div>
+
+<p>
+Then when you print the value you will see it has been formatted using
+the Format method. Note that the verb you use does not have to be one of
+the standard runes that the fmt package uses.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">  s := Secret{
+	username: "Nick",
+	password: "TopSecret",
+  }
+
+fmt.Println("Println:", s)
+fmt.Printf("     %%z:  %z\n", s)
+fmt.Printf("     %%v:  %v\n", s)
+fmt.Printf("     %%+v: %+v\n", s)
+fmt.Printf("     %%#v: %#v\n", s)
+</pre>
+</div>
+
+<p>
+Note that if a Format method is available it is used for all the value
+forms ("%v", "%+v" and "%#v") whereas the String method is only used for
+the first two and the GoString method is only used for the last form.
+</p>
+</div>
+</div>
+<div id="outline-container-org7906b73" class="outline-4">
+<h4 id="org7906b73">References</h4>
+<div class="outline-text-4" id="text-org7906b73">
+<p>
+see the standard package <a href="https://golang.org/pkg/fmt">fmt</a>
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf2cc148" class="outline-3">
+<h3 id="orgf2cc148">Wrapping text</h3>
+<div class="outline-text-3" id="text-orgf2cc148">
+</div>
+<div id="outline-container-orgce7340c" class="outline-4">
+<h4 id="orgce7340c">Summary</h4>
+<div class="outline-text-4" id="text-orgce7340c">
+<p>
+If you have a large block of text that you want to display to the user
+you have a problem. The issue is that simply printing it out will mean
+that it wraps at random places in the text as the terminal wraps at the
+edge of the screen. It might even be truncated at the edge of the screen
+depending on the terminal you are using.
+</p>
+
+<p>
+You can wrap the text yourself by adding newlines at the appropriate
+places but that is laborious, tedious and needs to be repeated whenever
+you change the text.
+</p>
+
+<p>
+Alternatively you can use a package to do the wrapping for you.
+</p>
+</div>
+</div>
+<div id="outline-container-org0ed75b7" class="outline-4">
+<h4 id="org0ed75b7">Discussion</h4>
+<div class="outline-text-4" id="text-org0ed75b7">
+<p>
+There are several text wrapping packages available. I've chosen three and
+I'll discuss them in order of complexity. Some of the packages have
+similar names and if you are using gosh to try out the examples you might
+find that goimports doesn't correctly populate the import statements,
+especially if you don't already have the module in your cache. In this
+case you can use gosh's "-import" parameter to give the correct package
+to import.
+</p>
+</div>
+
+<ul class="org-ul">
+<li><a id="orgf615b9b"></a>go-wordwrap<br />
+<div class="outline-text-5" id="text-orgf615b9b">
+<p>
+The first package is <a href="https://pkg.go.dev/github.com/mitchellh/go-wordwrap">go-wordwrap</a> (with package name "wordwrap"); this
+offers one method: WrapString which simply returns a string wrapped at
+word boundaries up to a maximum line length. Like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">s := "The quality of mercy is not strained."+
+	" It droppeth as the gentle rain from heaven"
+fmt.Println(wordwrap.WrapString(s, 30))
+</pre>
+</div>
+
+<p>
+This will split the string into two lines, each no longer than 30
+characters. It will only split at word boundaries so if a word is very
+long then it may exceed the maximum length.
+</p>
+
+<p>
+The maximum line length cannot be negative since the parameter is a uint
+so your code won't even compile if you try. If you set it to zero then no
+wrapping is performed. You might argue that this is a bug since it's not
+something you would want.
+</p>
+
+<p>
+Note that this package is still accepting pull requests but has only seen
+minimal changes recently.
+</p>
+</div>
+</li>
+
+<li><a id="orgf4b7503"></a>wordwrap<br />
+<div class="outline-text-5" id="text-orgf4b7503">
+<p>
+The next package is <a href="https://pkg.go.dev/github.com/eidolon/wordwrap">wordwrap</a>; this is a bit more complicated. You first
+generate a WrapperFunc and then call it on the strings you want to
+wrap. Like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">s := "The quality of mercy is not strained."+
+	" It droppeth as the gentle rain from heaven"
+wrapper := wordwrap.Wrapper(30, false)
+fmt.Println(wrapper(s))
+</pre>
+</div>
+
+<p>
+Again the string is split into two lines, each no longer than 30
+characters. The advantage of controlling this approach is that you can
+just pass the function around and you only need to set the parameters
+when you first create it. Unlike with the previous package you can set
+the maximum line length to a negative value as it takes an integer
+parameter but the code panics if the value is less than one.
+</p>
+
+<p>
+You can control whether words may be split in the middle by setting the
+second parameter (called breakWords) to the Wrapper function.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">s := "A string including a very long word,"+
+	" 1234567890123456789012345678901234567890"+
+	" and some shorter ones"
+wrapperNoBreak := wordwrap.Wrapper(30, false)
+fmt.Println(wrapperNoBreak(s))
+wrapperBreak := wordwrap.Wrapper(30, true)
+fmt.Println(wrapperBreak(s))
+</pre>
+</div>
+
+<p>
+The <a href="https://pkg.go.dev/github.com/eidolon/wordwrap">wordwrap</a> package also offers an Indent function that will add a
+prefix to one or all the lines on the given string. The following will
+just add the prefix to the first line.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">s := "The quality of mercy is not strained."+
+	" It droppeth as the gentle rain from heaven"
+wrapper := wordwrap.Wrapper(30, false)
+fmt.Println(
+	wordwrap.Indent(wrapper(s), "Portia (as Balthazar): ", false))
+</pre>
+</div>
+
+<p>
+And this will add the prefix to every line.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">s := "Some text to be written to a Go program as a comment."+
+	" Yet more comment text."
+wrapper := wordwrap.Wrapper(30, false)
+fmt.Println(
+	wordwrap.Indent(wrapper(s), "// ", true))
+</pre>
+</div>
+
+<p>
+Note that this package is not in a module and has not been changed for a
+few years.
+</p>
+</div>
+</li>
+
+<li><a id="org4289b6f"></a>twrap<br />
+<div class="outline-text-5" id="text-org4289b6f">
+<p>
+The last package we'll discuss is <a href="https://pkg.go.dev/github.com/nickwells/twrap.mod/twrap">twrap</a> (for t(ext)wrap); this takes a
+different approach and offers much more control over how the text is
+wrapped.
+</p>
+
+<p>
+Like the last package we discussed, to use it you first construct an
+object and then call wrapping functions on that. It differs from either
+of the other packages in that it writes the text directly rather than
+returning a string. You can choose the writer when you create the
+wrapper, the default is standard out. Like the first package discussed it
+will not split words outside of word boundaries.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">s := "The quality of mercy is not strained."+
+	" It droppeth as the gentle rain from heaven"
+twc, err := twrap.NewTWConf()
+if err != nil {
+      fmt.Println("Error creating the TWConf: ", err)
+      os.Exit(1)
+}
+twc.Wrap(s, 30)
+</pre>
+</div>
+
+<p>
+This is a bit long-winded because we have the error checking but you can
+call the NewTWConfOrPanic function instead and that will panic on error
+instead.
+</p>
+
+<p>
+Other differences to note are that the Wrap function takes an indent
+parameter rather than a maximum line length parameter. The maximum line
+length is set once on the TWConf object when you construct it, defaulting
+to 80 columns. To get the same behaviour as the previous examples we
+would need to write the following code:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">s := "The quality of mercy is not strained."+
+	" It droppeth as the gentle rain from heaven"
+twc := twrap.NewTWConfOrPanic(twrap.SetTargetLineLen(30))
+twc.Wrap(s, 0)
+</pre>
+</div>
+
+<p>
+But twrap can do much more than this.
+</p>
+
+<p>
+You can have prefixed text.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">s := "The quality of mercy is not strained."+
+	" It droppeth as the gentle rain from heaven"
+twc := twrap.NewTWConfOrPanic()
+twc.WrapPrefixed("Portia (as Balthazar): ", s, 10)
+</pre>
+</div>
+
+<p>
+You can have the first line of a block of text with a different
+indentation than the subsequent lines.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">s := "The quality of mercy is not strained."+
+	" It droppeth as the gentle rain from heaven"
+twc := twrap.NewTWConfOrPanic()
+twc.Wrap2Indent(s,
+	45, // the first line paragraph indent
+	40) // other lines indent
+</pre>
+</div>
+
+<p>
+And you can even have the first line of subsequent paragraphs having a
+different indent from the first line of text. The twrap package splits
+the supplied text into separate blocks around newline characters, these
+blocks form paragraphs with their own, potentially different first line
+indentation.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">s := "The quality of mercy is not strained."+
+	" It droppeth as the gentle rain from heaven"
+twc := twrap.NewTWConfOrPanic()
+twc.Wrap3Indent("Label: "+s+"\n"+s+"\n"+s,
+	40, // first line indent
+	49, // first line paragraph indent
+	47) // other line indent
+</pre>
+</div>
+
+<p>
+When printing a line twrap will print repeated white space characters
+which can allow for some simple formatting.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">s := "A simple list:\n"+
+	"  first item    some text describing the first item\n"+
+	"  second item   more text, this time describing the 2nd item\n"+
+	"  third item    the end. No more text"
+twc := twrap.NewTWConfOrPanic()
+twc.Wrap2Indent(s, 40, 50)
+</pre>
+</div>
+
+<p>
+You can also use twrap to print lists (you can change the list prefix
+string when you construct the TWConf).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">list := []string {
+	"the world",
+	"the flesh",
+	"and the devil",
+}
+twc := twrap.NewTWConfOrPanic()
+twc.List(list, 10)
+</pre>
+</div>
+
+<p>
+Or indexed lists.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">list := []string {
+	"the world",
+	"the flesh",
+	"and the devil",
+}
+twc := twrap.NewTWConfOrPanic()
+twc.IdxList(list, 10)
+</pre>
+</div>
+
+<p>
+Lastly, this package is in a Go module and is actively maintained.
+</p>
+</div>
+</li>
+</ul>
+</div>
+
+<div id="outline-container-org8015e2b" class="outline-4">
+<h4 id="org8015e2b">References</h4>
+<div class="outline-text-4" id="text-org8015e2b">
+<p>
+see <a href="https://pkg.go.dev/github.com/nickwells/twrap.mod/twrap">twrap</a>, <a href="https://pkg.go.dev/github.com/mitchellh/go-wordwrap">go-wordwrap</a> and <a href="https://pkg.go.dev/github.com/eidolon/wordwrap">wordwrap</a>
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org24516f2" class="outline-3">
+<h3 id="org24516f2">Tabulating data</h3>
+<div class="outline-text-3" id="text-org24516f2">
+</div>
+<div id="outline-container-orgadb96ab" class="outline-4">
+<h4 id="orgadb96ab">Summary</h4>
+<div class="outline-text-4" id="text-orgadb96ab">
+<p>
+Tables are a standard way of showing information especially when you have
+a lot of data to report. So how can you build tables in Go? As is often
+the case, the Go standard library has something you can use but there are
+other packages available as well.
+</p>
+
+<p>
+I'll discuss two packages, <a href="https://golang.org/pkg/text/tabwriter/">tabwriter</a> from the standard library and the
+<a href="http://pkg.go.dev/github.com/nickwells/col.mod/v3/col">col</a> package. Although they both will print tables they take a very
+different approach and offer very different interfaces.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga3902f3" class="outline-4">
+<h4 id="orga3902f3">Discussion</h4>
+<div class="outline-text-4" id="text-orga3902f3">
+</div>
+<ul class="org-ul">
+<li><a id="orgb79477f"></a>tabwriter<br />
+<div class="outline-text-5" id="text-orgb79477f">
+<p>
+The tabwriter package provides a filter that you can write to and that
+will pad its output into columns defined by tabs in the input. Let's
+look at a quick example.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">lines := []string{
+	"The quality\tof mercy\tis not strained\n",
+	"It droppeth\tas the gentle rain\tfrom heaven\n",
+	"Upon\tthe place\tbeneath\n",
+}
+tw := tabwriter.NewWriter(
+	os.Stdout, //output
+	0,         // min width
+	1,         // tabwidth
+	1,         // padding
+	' ',       // padding character
+	0)         // flags
+for _, l := range lines {
+	tw.Write([]byte(l))
+}
+// tabwriter buffers output so you must call Flush when you finish
+tw.Flush()
+</pre>
+</div>
+
+<p>
+The tabwriter package offers some tweaks to its behaviour through the
+flags and the other parameters you can give. For instance, increasing
+the padding value gives more space between the columns of text.
+</p>
+</div>
+</li>
+
+<li><a id="org04bc273"></a>col<br />
+<div class="outline-text-5" id="text-org04bc273">
+<p>
+The col package is more complicated than tabwriter but it can do a lot
+more. It takes a very different approach.
+</p>
+
+<p>
+There are two core structures and a single interface that col is built
+around, these are a Report, a Col and a Formatter. You construct the
+report from columns and a column has a formatter for displaying the data
+and one or more strings for the column header. You need to specify the
+column width and the data type of each column. Once you have constructed
+the Report, you can print the data. Repeatedly call the PrintRow method
+passing the values to be printed. The type of the values should match
+the types expected by the formatter for the corresponding column. Let's
+see an example.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">rpt := col.StdRpt(
+	col.New(colfmt.Int{W:4}, "year"),
+);
+rpt.PrintRow(2019)
+rpt.PrintRow(2020)
+rpt.PrintRow(2021)
+</pre>
+</div>
+
+<p>
+This will print this single column of year numbers. Not so exciting but
+now let's add a column.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">rpt := col.StdRpt(
+	col.New(colfmt.Int{W: 4}, "year"),
+	col.New(colfmt.Int{W: 2}, "number of pupils"),
+);
+rpt.PrintRow(2019, 34)
+rpt.PrintRow(2020, 36)
+rpt.PrintRow(2021, 29)
+</pre>
+</div>
+
+<p>
+That looks OK but the number of pupils column title is very wide for the
+data so let's put it on two rows.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">rpt := col.StdRpt(
+	col.New(colfmt.Int{W: 4}, "year"),
+	col.New(colfmt.Int{W: 2}, "number of","pupils"),
+);
+rpt.PrintRow(2019, 34)
+rpt.PrintRow(2020, 36)
+rpt.PrintRow(2021, 29)
+</pre>
+</div>
+
+<p>
+That looks better but now let's break down the number of pupis by gender.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">rpt := col.StdRpt(
+	col.New(colfmt.Int{W: 4}, "year"),
+	col.New(colfmt.Int{W: 2}, "number of pupils", "total"),
+	col.New(colfmt.Int{W: 2}, "number of pupils", "male"),
+	col.New(colfmt.Int{W: 2}, "number of pupils", "female"),
+);
+rpt.PrintRow(2019, 34, 18, 16)
+rpt.PrintRow(2020, 36, 18, 18)
+rpt.PrintRow(2021, 29, 13, 16)
+</pre>
+</div>
+
+<p>
+Now we see one of the useful features of col, title spanning. This is
+where adjacent columns sharing parts of the column name have the shared
+parts spanned, this leads to a more compact table.
+</p>
+
+<p>
+One last example, demonstrating another Formatter.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">rpt := col.StdRpt(
+	col.New(colfmt.Int{W: 4}, "year"),
+	col.New(colfmt.Int{W: 2}, "number of pupils", "total"),
+	col.New(colfmt.Int{W: 2}, "number of pupils", "male"),
+	col.New(colfmt.Int{W: 2}, "number of pupils", "female"),
+	col.New(colfmt.WrappedString{W: 30}, "class motto"),
+);
+rpt.PrintRow(2019, 34, 18, 16, "Death or Glory")
+rpt.PrintRow(2020, 36, 18, 18, "The quality of mercy is not strained,"+
+      " it droppeth as the gentle rain from heaven")
+rpt.PrintRow(2021, 29, 13, 16, "Whatever!")
+</pre>
+</div>
+
+<p>
+This barely scratches the surface of what you can do with the col
+package. There are several standard formatters provided but you can
+write your own provided that it satisfies the Formatter interface.
+</p>
+</div>
+</li>
+</ul>
+</div>
+
+<div id="outline-container-org7d4ea1d" class="outline-4">
+<h4 id="org7d4ea1d">References</h4>
+<div class="outline-text-4" id="text-org7d4ea1d">
+<p>
+see <a href="http://pkg.go.dev/github.com/nickwells/col.mod/v3/col">col</a> and <a href="https://golang.org/pkg/text/tabwriter/">tabwriter</a>
+</p>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Nick Wells</p>
-<p class="date">Created: 2021-04-14 Wed 15:41</p>
+<p class="date">Created: 2021-06-06 Sun 09:02</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

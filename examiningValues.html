@@ -3,10 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2021-06-06 Sun 09:01 -->
+<!-- 2021-06-06 Sun 09:02 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Go Recipes</title>
+<title>Go Recipes - Examining Values</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="Nick Wells" />
 <style type="text/css">
@@ -224,114 +224,283 @@
 </head>
 <body>
 <div id="content">
-<h1 class="title">Go Recipes</h1>
+<h1 class="title">Go Recipes - Examining Values</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org5e7fcf9">Go Recipes</a>
+<li><a href="#org8c7e5db">Examining Values</a>
 <ul>
-<li><a href="#org55eff57">Evaluating solutions</a></li>
-<li><a href="#org530abca">Using gosh to run the code</a></li>
-<li><a href="#orgd840fb4">Thanks</a></li>
-<li><a href="#orgdd3d4e9">Contents</a></li>
+<li><a href="#org26de4c6">Finding the memory used by a value</a>
+<ul>
+<li><a href="#org6712ba4">Summary</a></li>
+<li><a href="#orgdaccad5">Discussion</a></li>
+<li><a href="#orgc6ca6e8">References</a></li>
+</ul>
+</li>
+<li><a href="#org1ca90c8">Displaying the contents of a value of unknown type</a>
+<ul>
+<li><a href="#orga8e98b5">Summary</a></li>
+<li><a href="#org6c7f99f">References</a></li>
+</ul>
+</li>
+<li><a href="#orgd89d9cc">Displaying the type of a value</a>
+<ul>
+<li><a href="#orga7ad697">Summary</a></li>
+<li><a href="#org3fc7b14">References</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org5e7fcf9" class="outline-2">
-<h2 id="org5e7fcf9">Go Recipes</h2>
-<div class="outline-text-2" id="text-org5e7fcf9">
+<div id="outline-container-org8c7e5db" class="outline-2">
+<h2 id="org8c7e5db">Examining Values</h2>
+<div class="outline-text-2" id="text-org8c7e5db">
 <p>
-This is a collection of discussions about how to use Go to solve problems
-and perform tasks. The focus is on practical problems that make up small
-parts of larger problems. Hopefully you'll find the examples interesting
-and useful. You don't need to have read the preceding recipes to use them;
-they are supposed to be self contained but you might find more detail and
-explanation in surrounding recipes. You can also just browse for ideas on
-how to write Go code.
+These recipes offer some tips for examining Go values.
+</p>
+
+<p>
+For other recipes <a href="gorecipes.html">see here</a>.
 </p>
 </div>
-
-<div id="outline-container-org55eff57" class="outline-3">
-<h3 id="org55eff57">Evaluating solutions</h3>
-<div class="outline-text-3" id="text-org55eff57">
-<p>
-Some of the solutions use both standard library packages and third-party
-packages. When deciding which solution to use be aware that using a third
-party library introduces an extra dependency into your program. If the
-standard library solution meets your needs you are generally better off
-using that. The Go team will maintain this code and you can be sure that
-it will still be around into the foreseeable future. Third party packages
-can offer some very powerful alternatives and different approaches to
-problems that may be just right for you.
-</p>
+<div id="outline-container-org26de4c6" class="outline-3">
+<h3 id="org26de4c6">Finding the memory used by a value</h3>
+<div class="outline-text-3" id="text-org26de4c6">
 </div>
-</div>
-
-<div id="outline-container-org530abca" class="outline-3">
-<h3 id="org530abca">Using gosh to run the code</h3>
-<div class="outline-text-3" id="text-org530abca">
+<div id="outline-container-org6712ba4" class="outline-4">
+<h4 id="org6712ba4">Summary</h4>
+<div class="outline-text-4" id="text-org6712ba4">
 <p>
-The discussions are accompanied by fragments of Go code which can be run
-using the gosh command. See <a href="Gosh.html">Gosh Tips</a> for details.
+Go has no builtin sizeof operator such as we have in languages like C but
+the standard library has something that can help.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">go install github.com/nickwells/utilities/gosh@latest
+<pre class="src src-go">var v rune
+fmt.Println(unsafe.Sizeof(v))
 </pre>
 </div>
 
 <p>
-To run the code simply paste it onto the command line for gosh, suitably
-quoted, after a -e parameter. Like this:
+This uses the unsafe package which gives the size of the passed value in
+bytes. To see how much space is used by a different type you change the
+type of v.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdaccad5" class="outline-4">
+<h4 id="orgdaccad5">Discussion</h4>
+<div class="outline-text-4" id="text-orgdaccad5">
+<p>
+The unsafe package is, as the name suggests, not for general use; the
+documentation states: "Packages that import unsafe may be non-portable
+and are not protected by the Go 1 compatibility guidelines". For the
+limited purpose of understanding how much space a particular data type
+requires it works just fine.
+</p>
+
+<p>
+Note that the size reported is the size of the value itself not the size
+of any underlying data. Let's try with a string:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">gosh -e 'fmt.Print("Hello,")
-     fmt.Println(" World!")'
+<pre class="src src-go">fmt.Println(unsafe.Sizeof("Hello, World!"))
 </pre>
 </div>
 
 <p>
-This will print "Hello, World!".
+This will report the size of the string argument not the string
+itself. Under the covers a string is a structure with a pointer to an
+array of bytes and a field holding the length. What gets reported is the
+size of this structure (16 bytes on my machine) not the amount of space
+being pointed to.
 </p>
 
 <p>
-See the section on gosh tips below for lots more about how you can use
-gosh.
+Now let's look at a struct:
 </p>
-</div>
+
+<div class="org-src-container">
+<pre class="src src-go">s := struct{
+	s string
+	i int
+	f float64
+}{"Hello, World!", 42, 3.14}
+fmt.Println(unsafe.Sizeof(s))
+</pre>
 </div>
 
-<div id="outline-container-orgd840fb4" class="outline-3">
-<h3 id="orgd840fb4">Thanks</h3>
-<div class="outline-text-3" id="text-orgd840fb4">
 <p>
-Thanks to fniessen (see github.com/fniessen/org-html-themes) for the
-themes used to make the html generated from the emacs orgmode source look
-as it does here.
+Again, this reports the size of the 's' object not the full amount of
+data that it uses (the bytes used to hold the string value are not
+reported).
+</p>
+
+<p>
+You can see this more clearly with a slice:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">type t struct{
+	s string
+	       i int
+	       f float64
+       }
+
+s1 := []t{ {"Hello, World!", 42, 3.14} }
+fmt.Println(unsafe.Sizeof(s1))
+
+s2 := []t{ {"Hello,", 40, 3.0}, {" World!", 2, 0.14} }
+fmt.Println(unsafe.Sizeof(s2))
+</pre>
+</div>
+
+<p>
+This reports the same value for each slice despite the second slice being
+twice as long. This is because the space used by the slice object is the
+same: a pointer, a length and a capacity in each case.
+</p>
+
+<p>
+If you want to know how big the slice is you can use the built-in
+functions len and cap as follows:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">s1 := []int{ 1, 2 }
+fmt.Println(len(s1))
+fmt.Println(cap(s1))
+
+s2 := []int{ 1, 2, 3, 4 }
+fmt.Println(len(s2))
+fmt.Println(cap(s2))
+
+s3 := make([]int, 0, 9)
+fmt.Println(len(s3))
+fmt.Println(cap(s3))
+</pre>
+</div>
+
+<p>
+This shows the length and capacity of the slices. Note that the first two
+have the same capacity and length whereas the last slice constructed
+using the built-in make function is given a capacity of 9 entries and
+doesn't use any of them so it has a length of 0. To understand how much
+memory each of these will use we need to know how much space the slice
+object itself uses, how many slots have been allocated and how big each
+of the objects in the slots are. Like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">s := make([]int, 0, 9)
+var v int
+fmt.Println(uint64(cap(s)) * uint64(unsafe.Sizeof(v)) +
+		  uint64(unsafe.Sizeof(s)))
+</pre>
+</div>
+
+<p>
+A general solution would need to use reflection to understand the full
+type tree.
 </p>
 </div>
 </div>
+<div id="outline-container-orgc6ca6e8" class="outline-4">
+<h4 id="orgc6ca6e8">References</h4>
+<div class="outline-text-4" id="text-orgc6ca6e8">
+<p>
+See the standard package <a href="https://pkg.go.dev/unsafe">unsafe</a>.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org1ca90c8" class="outline-3">
+<h3 id="org1ca90c8">Displaying the contents of a value of unknown type</h3>
+<div class="outline-text-3" id="text-org1ca90c8">
+</div>
+<div id="outline-container-orga8e98b5" class="outline-4">
+<h4 id="orga8e98b5">Summary</h4>
+<div class="outline-text-4" id="text-orga8e98b5">
+<p>
+a value can be shown with the 'v' verb in the standard fmt package as
+follows:
+</p>
 
-<div id="outline-container-orgdd3d4e9" class="outline-3">
-<h3 id="orgdd3d4e9">Contents</h3>
-<div class="outline-text-3" id="text-orgdd3d4e9">
-<ul class="org-ul">
-<li><a href="strings.html">Strings</a></li>
-<li><a href="examiningValues.html">Examining Values</a></li>
-<li><a href="formatting.html">Formatting Output</a></li>
-<li><a href="Gosh.html">Gosh Tips</a></li>
-</ul>
+<div class="org-src-container">
+<pre class="src src-go">v := struct{
+      s string
+      i int
+      f float64
+}{"", 42, 3.14}
+  fmt.Printf("%%v:  %v\n", v)
+  fmt.Printf("%%+v: %+v\n", v)
+  fmt.Printf("%%#v: %#v\n", v)
+</pre>
+</div>
+
+<p>
+This prints the value in three different forms. Firstly in the default,
+minimal form, then, using the '+' flag, with the field names as well and
+finally, using the '#' flag you get a Go syntax representation of the
+value which includes the data type.
+</p>
+</div>
+</div>
+<div id="outline-container-org6c7f99f" class="outline-4">
+<h4 id="org6c7f99f">References</h4>
+<div class="outline-text-4" id="text-org6c7f99f">
+<p>
+See the standard package <a href="https://pkg.go.dev/fmt">fmt</a>.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd89d9cc" class="outline-3">
+<h3 id="orgd89d9cc">Displaying the type of a value</h3>
+<div class="outline-text-3" id="text-orgd89d9cc">
+</div>
+<div id="outline-container-orga7ad697" class="outline-4">
+<h4 id="orga7ad697">Summary</h4>
+<div class="outline-text-4" id="text-orga7ad697">
+<p>
+The type value can be shown with the 'T' verb in the standard fmt package as
+follows:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">var v int
+var i interface{} = v
+fmt.Printf("%T\n", i)
+</pre>
+</div>
+
+<p>
+This prints the type of a value. It's particularly useful when you are
+given an interface value where it will show the type of the actual
+value. It's also useful for debugging or error reporting. It doesn't take
+any flags.
+</p>
+</div>
+</div>
+<div id="outline-container-org3fc7b14" class="outline-4">
+<h4 id="org3fc7b14">References</h4>
+<div class="outline-text-4" id="text-org3fc7b14">
+<p>
+See the standard package <a href="https://pkg.go.dev/fmt">fmt</a>.
+</p>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Nick Wells</p>
-<p class="date">Created: 2021-06-06 Sun 09:01</p>
+<p class="date">Created: 2021-06-06 Sun 09:02</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

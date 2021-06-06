@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2021-04-08 Thu 12:10 -->
+<!-- 2021-06-06 Sun 09:01 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Go Recipes - Strings</title>
@@ -193,12 +193,12 @@
   .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js"></script>
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+<script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
 <script type="text/javascript">
 // @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
 <!--/*--><![CDATA[/*><!--*/
@@ -229,44 +229,64 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org58ff313">Strings</a>
+<li><a href="#orge0518ee">Strings</a>
 <ul>
-<li><a href="#org46653f5">Strings one character at a time</a>
+<li><a href="#org088d637">Strings one character at a time</a>
 <ul>
-<li><a href="#org021265a">Summary</a></li>
-<li><a href="#org2f679cd">Discussion</a></li>
+<li><a href="#orgb8e7a96">Summary</a></li>
+<li><a href="#org1762cca">Discussion</a></li>
 </ul>
 </li>
-<li><a href="#org9333544">Substrings</a></li>
-<li><a href="#orgce0491b">Wrapping text</a></li>
-<li><a href="#org349e6b6">Tabulating data</a></li>
-<li><a href="#org4df2c00">Splitting a string into words</a></li>
+<li><a href="#orge2df756">Substrings</a>
+<ul>
+<li><a href="#org2d1f406">Summary</a></li>
+<li><a href="#orgb496dcf">Discussion</a></li>
+<li><a href="#org3552bc0">References</a></li>
+</ul>
+</li>
+<li><a href="#org501dc2f">Splitting a string into words</a>
+<ul>
+<li><a href="#org2137531">Summary</a></li>
+<li><a href="#org04a3ce3">Discussion</a></li>
+<li><a href="#org1cb388a">References</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org58ff313" class="outline-2">
-<h2 id="org58ff313">Strings</h2>
-<div class="outline-text-2" id="text-org58ff313">
+<div id="outline-container-orge0518ee" class="outline-2">
+<h2 id="orge0518ee">Strings</h2>
+<div class="outline-text-2" id="text-orge0518ee">
+<p>
+These recipes offer some tips for handling Go strings. There are some
+excellent Go packages in the standard library, most notably the strings
+package but these recipes talk you through some of the subtleties of Go
+strings.
+</p>
+
+<p>
+For other recipes <a href="gorecipes.html">see here</a>.
+</p>
 </div>
-<div id="outline-container-org46653f5" class="outline-3">
-<h3 id="org46653f5">Strings one character at a time</h3>
-<div class="outline-text-3" id="text-org46653f5">
+<div id="outline-container-org088d637" class="outline-3">
+<h3 id="org088d637">Strings one character at a time</h3>
+<div class="outline-text-3" id="text-org088d637">
 </div>
-<div id="outline-container-org021265a" class="outline-4">
-<h4 id="org021265a">Summary</h4>
-<div class="outline-text-4" id="text-org021265a">
+<div id="outline-container-orgb8e7a96" class="outline-4">
+<h4 id="orgb8e7a96">Summary</h4>
+<div class="outline-text-4" id="text-orgb8e7a96">
 <p>
 If you just want to go through the string from start to end then you can
 use a simple range loop, this will present the characters one at a time
 as follows:
 </p>
 <div class="org-src-container">
-<pre class="src src-go">str := "Pi (π)"
+<pre class="src src-go">s := "Pi: π Pie: tasty"
 
-for _, ch := range str {
-	fmt.Printf("%c", ch)
+for i, r := range s {
+	fmt.Printf("%2d: %c\n", i, r)
 }
 fmt.Println()
 </pre>
@@ -277,19 +297,19 @@ If you want random access to the runes (Go's name for a Unicode Code
 point) then you need to convert the string to a slice of runes first.
 </p>
 <div class="org-src-container">
-<pre class="src src-go">str := "Pi (π)"
-rstr := []rune(str)
-fmt.Printf("%c\n", rstr[4])
+<pre class="src src-go">s := "Pi: π"
+r := []rune(s)
+fmt.Printf("%c\n", r[4])
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org2f679cd" class="outline-4">
-<h4 id="org2f679cd">Discussion</h4>
-<div class="outline-text-4" id="text-org2f679cd">
+<div id="outline-container-org1762cca" class="outline-4">
+<h4 id="org1762cca">Discussion</h4>
+<div class="outline-text-4" id="text-org1762cca">
 <p>
-First of all let's establish what we mean by 'character'. In Go a string
+Let's establish what we mean by 'character'. In Go a string
 is a sequence of bytes but this is not what we are talking about. By
 'character' we mean a Unicode Code Point or, as Go calls it, a rune.
 </p>
@@ -303,34 +323,35 @@ characters.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-go">str := "Pi (π)"
-fmt.Printf("str: %q\n", str)
-fmt.Println("len(       str ):", len(str))
-fmt.Println("len([]rune(str)):", len([]rune(str)))
+<pre class="src src-go">s := "Pi: π"
+fmt.Printf("s: %q\n", s)
+fmt.Println("len(       s ):", len(s))
+fmt.Println("len([]rune(s)):", len([]rune(s)))
 </pre>
 </div>
 
 <p>
 The string has a Greek letter Pi as it's 5th character. This will print
-the string and will show it as having length 7 as a string but only 6 as
+the string and will show it as having length 6 as a string but only 5 as
 a slice of runes.
 </p>
 
 <p>
-What's happening? There are 7 bytes being used to encode the 6 characters
-(runes). Let's look inside the string.
+What's happening? There are 6 bytes being used to encode the 5
+characters (runes). Let's look inside the string, we'll add a
+period at the end of the string to illustrate the difference.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-go">str := "Pi (π)"
+<pre class="src src-go">s := "Pi: π."
 
-for i, ch := range str {
-	fmt.Printf("[%d]%c 0x%x %08b  ", i, ch, ch, ch)
+for i, ch := range s {
+	fmt.Printf("[%d]%c 0x%[2]x %08[2]b  ", i, ch)
 }
 fmt.Println()
 
-for i, ch := range []rune(str) {
-	fmt.Printf("[%d]%c 0x%x %08b  ", i, ch, ch, ch)
+for i, ch := range []rune(s) {
+	fmt.Printf("[%d]%c 0x%[2]x %08[2]b  ", i, ch)
 }
 fmt.Println()
 </pre>
@@ -343,40 +364,216 @@ but not for the loop over the slice of runes. So let's look at what's
 happening in the string.
 </p>
 
-<div class="org-src-container">
-<pre class="src src-go">str := "Pi (π)"
+<p>
+Note that the Printf statements each use the explicit argument index to
+reference the character ('ch') three times.
+</p>
 
-fmt.Printf("       str [4]%c 0x%[1]x %08[1]b\n", str[4])
-fmt.Printf("       str [5]%c 0x%[1]x %08[1]b\n", str[5])
-fmt.Printf("[]rune(str)[4]%c 0x%[1]x %08[1]b\n", []rune(str)[4])
+<div class="org-src-container">
+<pre class="src src-go">s := "Pi: π"
+
+fmt.Printf("       s [4]%c 0x%[1]x %08[1]b\n", s[4])
+fmt.Printf("       s [5]%c 0x%[1]x %08[1]b\n", s[5])
+fmt.Printf("[]rune(s)[4]%c 0x%[1]x %08[1]b\n", []rune(s)[4])
 </pre>
 </div>
 
 <p>
 When you run this to examine the contents of the string at characters 4
-and 5 you'll see that you get str[4] shown as Ï and str[5] is a
-non-printing character (PAD)
+and 5 you'll see that you get s[4] shown as Ï and s[5] is a non-printing
+character (PAD). This is the UTF8 encoding at work showing the two
+characters which together form the UTF8-encoded rune for the Greek letter
+pi.
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org9333544" class="outline-3">
-<h3 id="org9333544">Substrings</h3>
+<div id="outline-container-orge2df756" class="outline-3">
+<h3 id="orge2df756">Substrings</h3>
+<div class="outline-text-3" id="text-orge2df756">
+<p>
+Go offers several ways of extracting substrings but you need to
+understand strings and how they are encoded to know which is best.
+</p>
 </div>
-<div id="outline-container-orgce0491b" class="outline-3">
-<h3 id="orgce0491b">Wrapping text</h3>
+<div id="outline-container-org2d1f406" class="outline-4">
+<h4 id="org2d1f406">Summary</h4>
+<div class="outline-text-4" id="text-org2d1f406">
+<p>
+To get the last character of a string you will need to convert it into a
+slice of runes and then take the last element of that slice as follows:
+</p>
+<div class="org-src-container">
+<pre class="src src-go">s := "Pi: π"
+r := []rune(s)
+fmt.Printf("r[end] = %c\n", r[len(r)-1])
+</pre>
 </div>
-<div id="outline-container-org349e6b6" class="outline-3">
-<h3 id="org349e6b6">Tabulating data</h3>
+
+<p>
+To get a substring of the first two characters we can use standard
+slicing operations as follows:
+</p>
+<div class="org-src-container">
+<pre class="src src-go">s := "Pi: π"
+r := []rune(s)
+fmt.Printf("r[:2] = %s\n", string(r[:2]))
+</pre>
 </div>
-<div id="outline-container-org4df2c00" class="outline-3">
-<h3 id="org4df2c00">Splitting a string into words</h3>
+<p>
+Note that we have to convert the slice of runes back into a string in
+order to print it.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb496dcf" class="outline-4">
+<h4 id="orgb496dcf">Discussion</h4>
+<div class="outline-text-4" id="text-orgb496dcf">
+<p>
+You can take a substring in a number of ways but you need to be aware of
+the distinction between bytes and runes. A string is an array of bytes
+and the same array slicing techniques can be applied but if a character
+is not represented by a single byte then you will need to know how long
+it is or else (safer) convert it into a slice of runes and work with
+that.
+</p>
+
+<p>
+What are the downsides of this? There is a cost to constructing the rune
+slice; the slice of runes takes up to four times as much space as a
+string since potentially each byte in the string will be held as a 4-byte
+rune in the slice of runes. If the string has a lot of non-ASCII
+characters then the inflation will be less, most European or Middle
+Eastern alphabets will see the slice of runes take twice as much space,
+strings of Chinese characters will increase in size by a third and
+strings of emojis will suffer no increase in size. There is also the
+runtime cost of constructing the rune slice out of the string. If you are
+just doing this occasionally then you can ignore the cost but if you are
+doing it in some high-performance loop you should be aware that
+converting strings to slices of runes is not free. Also, be aware that
+strings with multi-byte runes will take longer to convert to a rune-slice
+than strings holding just single-byte runes (ASCII characters). The more
+multi-byte runes the longer it takes but there is an initial cost as soon
+as there is even a single multi-byte rune.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3552bc0" class="outline-4">
+<h4 id="org3552bc0">References</h4>
+<div class="outline-text-4" id="text-org3552bc0">
+<p>
+see the standard packages <a href="https://pkg.go.dev/unicode/utf8">unicode/utf8</a>, <a href="https://pkg.go.dev/strings">strings</a> and <a href="https://pkg.go.dev/regexp">regexp</a> and the
+Go blog entry by Rob Pike <a href="https://blog.golang.org/strings">Strings, bytes, runes and characters in Go</a>.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org501dc2f" class="outline-3">
+<h3 id="org501dc2f">Splitting a string into words</h3>
+<div class="outline-text-3" id="text-org501dc2f">
+</div>
+<div id="outline-container-org2137531" class="outline-4">
+<h4 id="org2137531">Summary</h4>
+<div class="outline-text-4" id="text-org2137531">
+<p>
+The simplest way is to use the Split function from the strings package to
+divide the string up around spaces, as follows:
+</p>
+<div class="org-src-container">
+<pre class="src src-go">words := strings.Split("The quality of mercy", " ")
+fmt.Printf("%q\n", words)
+</pre>
+</div>
+<p>
+A better way, though slower, is to use the regexp package. Like this:
+</p>
+<div class="org-src-container">
+<pre class="src src-go">re := regexp.MustCompile(`\s+`)
+words := re.Split("The quality of mercy", -1)
+fmt.Printf("%q\n", words)
+</pre>
+</div>
+<p>
+Note that you must pass the Split method a final parameter of -1 so that
+it will return all the substrings.
+</p>
+</div>
+</div>
+<div id="outline-container-org04a3ce3" class="outline-4">
+<h4 id="org04a3ce3">Discussion</h4>
+<div class="outline-text-4" id="text-org04a3ce3">
+<p>
+If you have run these code fragments in gosh you will notice that they
+both produce the same results so why do I say that the regexp version is
+better. To understand this let's take a look at how these approaches work
+with a different string. First let's try a string with multiple spaces.
+First with the strings version:
+</p>
+<div class="org-src-container">
+<pre class="src src-go">words := strings.Split("The quality of  mercy", " ")
+fmt.Printf("%q\n", words)
+</pre>
+</div>
+<p>
+And using the regexp version:
+</p>
+<div class="org-src-container">
+<pre class="src src-go">re := regexp.MustCompile(`\s+`)
+words := re.Split("The quality of  mercy", -1)
+fmt.Printf("%q\n", words)
+</pre>
+</div>
+<p>
+If you run these you'll see that the strings version produces an extra,
+empty word between "of" and "mercy". Let's try again with another string.
+</p>
+<div class="org-src-container">
+<pre class="src src-go">words := strings.Split("The quality of  mercy\n\tis not strained,\n"+
+			"it droppeth as the\n\tgentle rain from heaven", " ")
+fmt.Printf("%q\n", words)
+</pre>
+</div>
+<p>
+And using the regexp version:
+</p>
+<div class="org-src-container">
+<pre class="src src-go">re := regexp.MustCompile(`\s+`)
+words := re.Split("The quality of  mercy\n\tis not strained,\n"+
+			"it droppeth as the\n\tgentle rain from heaven", -1)
+fmt.Printf("%q\n", words)
+</pre>
+</div>
+<p>
+You'll see from these examples that the regexp version does much better
+than the strings version but it's still not perfect, it includes the
+punctuation at the end of "strained,". We can improve this but we'll
+discuss it further when we talk about regular expressions.
+</p>
+
+<p>
+The disadvantages with the regexp approach are that there's a little more
+code needed (an extra line), you need to understand regular expressions
+and the Split method is a bit more complicated to use - it's like the
+SplitN function from the strings package.
+</p>
+</div>
+</div>
+<div id="outline-container-org1cb388a" class="outline-4">
+<h4 id="org1cb388a">References</h4>
+<div class="outline-text-4" id="text-org1cb388a">
+<p>
+See the standard packages  <a href="https://pkg.go.dev/strings">strings</a> and <a href="https://pkg.go.dev/regexp">regexp</a>.
+</p>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Nick Wells</p>
-<p class="date">Created: 2021-04-08 Thu 12:10</p>
+<p class="date">Created: 2021-06-06 Sun 09:01</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

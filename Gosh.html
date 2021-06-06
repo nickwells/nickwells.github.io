@@ -1,0 +1,945 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-06 Sun 09:02 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Go Recipes - Gosh Tips</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Nick Wells" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+<script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Go Recipes - Gosh Tips</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org2fc6284">Gosh Tips</a>
+<ul>
+<li><a href="#org68212ce">Installing gosh</a>
+<ul>
+<li><a href="#orga72036a">Summary</a></li>
+<li><a href="#org57d2a7b">Discussion</a></li>
+</ul>
+</li>
+<li><a href="#org350272a">Running code</a>
+<ul>
+<li><a href="#org0f6f81c">Summary</a></li>
+<li><a href="#org1c31cc5">Discussion</a></li>
+</ul>
+</li>
+<li><a href="#org7d1da34">Code sections</a>
+<ul>
+<li><a href="#orgeb816c0">Summary</a></li>
+</ul>
+</li>
+<li><a href="#orge724dc0">Shortcuts for printing</a>
+<ul>
+<li><a href="#org51eee33">Summary</a></li>
+</ul>
+</li>
+<li><a href="#org3b08209">Snippets</a>
+<ul>
+<li><a href="#orgb4a1e3c">Summary</a></li>
+</ul>
+</li>
+<li><a href="#orga402268">Looping over input</a>
+<ul>
+<li><a href="#org668aaea">Summary</a></li>
+</ul>
+</li>
+<li><a href="#org0052bd0">Help</a>
+<ul>
+<li><a href="#org355d5c7">Summary</a></li>
+</ul>
+</li>
+<li><a href="#org0b0beaf">Missing goimports command</a>
+<ul>
+<li><a href="#org762e414">Summary</a></li>
+<li><a href="#org9a880bf">Discussion</a></li>
+</ul>
+</li>
+<li><a href="#org63ff701">goimports isn't finding my package</a>
+<ul>
+<li><a href="#org9873b36">Summary</a></li>
+</ul>
+</li>
+<li><a href="#org21bc09f">Applying a gosh parameter every time it runs</a>
+<ul>
+<li><a href="#org08d3c0f">Summary</a></li>
+<li><a href="#org6d4d7ca">Discussion</a></li>
+</ul>
+</li>
+<li><a href="#orgea36b47">Command line parameter completion</a>
+<ul>
+<li><a href="#orgffd3079">Summary</a></li>
+</ul>
+</li>
+<li><a href="#org3aeb2c9">Troubleshooting the generated program</a>
+<ul>
+<li><a href="#org1906f23">Summary</a></li>
+</ul>
+</li>
+<li><a href="#orgcb59f80">What is gosh doing</a>
+<ul>
+<li><a href="#orgb35a239">Summary</a></li>
+</ul>
+</li>
+<li><a href="#orgf1f5cd1">Useful shell aliases</a>
+<ul>
+<li><a href="#org19ed8aa">Summary</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org2fc6284" class="outline-2">
+<h2 id="org2fc6284">Gosh Tips</h2>
+<div class="outline-text-2" id="text-org2fc6284">
+<p>
+These recipes offer some tips for getting the most from gosh and how to fix
+any problems you might have.
+</p>
+
+<p>
+For other recipes <a href="gorecipes.html">see here</a>.
+</p>
+</div>
+<div id="outline-container-org68212ce" class="outline-3">
+<h3 id="org68212ce">Installing gosh</h3>
+<div class="outline-text-3" id="text-org68212ce">
+</div>
+<div id="outline-container-orga72036a" class="outline-4">
+<h4 id="orga72036a">Summary</h4>
+<div class="outline-text-4" id="text-orga72036a">
+<p>
+To install gosh run the following command:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">go install github.com/nickwells/utilities/gosh@latest
+</pre>
+</div>
+
+<p>
+This will install the gosh command in the $GOPATH/bin directory (by
+default: $HOME/go/bin). Make sure you have that directory added to your
+PATH.
+</p>
+</div>
+</div>
+<div id="outline-container-org57d2a7b" class="outline-4">
+<h4 id="org57d2a7b">Discussion</h4>
+<div class="outline-text-4" id="text-org57d2a7b">
+<p>
+The gosh command is self contained but there are some extras which
+you can also install.
+</p>
+
+<p>
+To install the snippets you will need to choose where you want to copy
+them. Gosh comes with some standard directories which it will search for
+snippets, the following command will list them:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">gosh -snippet-list-dir
+</pre>
+</div>
+
+<p>
+Choose one of these directories and set the SD shell variable to the
+directory name (this is just for the purpose of the installation commands
+below).
+</p>
+
+<p>
+The recommended way of installing the snippets is to install the
+gosh.snippet command and then use that to install the standard snippets.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">go install github.com/nickwells/utilities/gosh.snippet@latest
+gosh.snippet -to $SD -install
+</pre>
+</div>
+
+<p>
+Alternatively you can copy the snippets directly. If you git clone the
+utilities repository you can find the _snippets directory under the
+gosh.snippets directory. The following commands (on Linux) will create
+the snippets directory and copy in the standard snippets, when run from
+the gosh.snippets source directory.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">mkdir --parents $SD
+cp -r --suffix=.orig --backup ./_snippets/* $SD
+</pre>
+</div>
+
+<p>
+Once you have installed the snippets, using either of the methods above,
+you should clear out any copies generated of snippets you may have set up
+before. You only need to do this if you already had older versions of the
+snippets in target directory. A useful command for helping with this is
+the findCmpRm command which can be installed as follows.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">go install github.com/nickwells/utilities/findCmpRm@latest
+findCmpRm -dir $SD -recursive -extension .orig
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org350272a" class="outline-3">
+<h3 id="org350272a">Running code</h3>
+<div class="outline-text-3" id="text-org350272a">
+</div>
+<div id="outline-container-org0f6f81c" class="outline-4">
+<h4 id="org0f6f81c">Summary</h4>
+<div class="outline-text-4" id="text-org0f6f81c">
+<p>
+The 'exec' parameter (or its synonym 'e') gives code for gosh to run.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">gosh -e 'fmt.Println("Hi!")'
+</pre>
+</div>
+
+<p>
+This will print "Hi!".
+</p>
+</div>
+</div>
+<div id="outline-container-org1c31cc5" class="outline-4">
+<h4 id="org1c31cc5">Discussion</h4>
+<div class="outline-text-4" id="text-org1c31cc5">
+<p>
+You can have multiple lines of code by repeating the exec parameter; they
+are added in the order they appear on the command line. Alternatively you
+can have multiple lines in the same parameter; make sure that you've
+quoted it correctly so the shell doesn't think you've finished the
+command early. You can separate Go statements with semi-colons either;
+these are not normally needed by Go and the gofmt (or goimports) command
+will replace them with new lines but it can make it easier when entering
+Go code at the command line. The following are all equivalent:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">gosh -e 'fmt.Print("Greetings,")' -e 'fmt.Println(" Universe!")'
+gosh -e 'fmt.Print("Greetings,")
+fmt.Println(" Universe!")'
+gosh -e 'fmt.Print("Greetings,"); fmt.Println(" Universe!")'
+</pre>
+</div>
+
+<p>
+Code given to gosh through the 'exec' parameter will appear in the 'main'
+function. If you want to declare a function you will need to add it to
+the global scope using the 'global' (or 'g') parameter. The following
+code declares a function that prints "Hello, World!" and then calls it.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">gosh -g 'func F() { fmt.Print("Hello, World!\n") }' -e 'F()'
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7d1da34" class="outline-3">
+<h3 id="org7d1da34">Code sections</h3>
+<div class="outline-text-3" id="text-org7d1da34">
+</div>
+<div id="outline-container-orgeb816c0" class="outline-4">
+<h4 id="orgeb816c0">Summary</h4>
+<div class="outline-text-4" id="text-orgeb816c0">
+<p>
+When gosh builds the code to be run it builds it in sections. There are
+the boilerplate sections that gosh generates itself and there are
+sections that gosh populates with code that you have given. The code
+sections are listed in a help note; run the following code to see this
+note.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">gosh -help-note 'Gosh - code sections'
+</pre>
+</div>
+
+<p>
+The sections are each separate and you can populate them
+independently. Code added to a section is added in the order it appears
+on the command line. For instance:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">gosh -after 'fmt.Print("a1")' \
+     -exec 'fmt.Print("e1")' \
+     -before 'fmt.Print("b1")' \
+     -after 'fmt.Print("a2")' \
+     -exec 'fmt.Print("e2")' \
+     -before 'fmt.Print("b2")'
+</pre>
+</div>
+
+<p>
+will print "b1b2e1e2a1a2" so you can see that the sections are grouped
+independently. Code in the 'global' section is for global variables and
+functions, it will appear outside the main function.
+</p>
+
+<p>
+The different sections are present because gosh can run code in a loop
+where it reads from standard input (or files) a line at a time and then
+the code in the 'before' section appears before the loop, the 'after'
+section comes after the loop and the 'exec' section runs inside the loop.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orge724dc0" class="outline-3">
+<h3 id="orge724dc0">Shortcuts for printing</h3>
+<div class="outline-text-3" id="text-orge724dc0">
+</div>
+<div id="outline-container-org51eee33" class="outline-4">
+<h4 id="org51eee33">Summary</h4>
+<div class="outline-text-4" id="text-org51eee33">
+<p>
+There are some shortcuts that gosh offers to make it faster and easier to
+write scripts. Printing is a common task and gosh offers some parameters
+to make this simpler. The following are equivalent:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">gosh -pln '"Hi!"'
+gosh -e 'fmt.Println("Hi!")'
+</pre>
+</div>
+<p>
+&#x2026; and &#x2026;
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">gosh -pf '"pi = %.9f\n", math.Pi'
+gosh -e 'fmt.Printf("pi = %.9f\n", math.Pi)'
+</pre>
+</div>
+
+<p>
+There are similar shortcuts for printing in the various code sections;
+see the help message for details.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3b08209" class="outline-3">
+<h3 id="org3b08209">Snippets</h3>
+<div class="outline-text-3" id="text-org3b08209">
+</div>
+<div id="outline-container-orgb4a1e3c" class="outline-4">
+<h4 id="orgb4a1e3c">Summary</h4>
+<div class="outline-text-4" id="text-orgb4a1e3c">
+<p>
+gosh allows you to have useful code fragments called snippets in files
+and to import them into the program being built. These can either be
+given as complete filenames or, more usefully, as shorter names in
+standard directories. To see all the snippets available pass the
+snippet-list parameter as follows:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">gosh -snippet-list
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga402268" class="outline-3">
+<h3 id="orga402268">Looping over input</h3>
+<div class="outline-text-3" id="text-orga402268">
+</div>
+<div id="outline-container-org668aaea" class="outline-4">
+<h4 id="org668aaea">Summary</h4>
+<div class="outline-text-4" id="text-org668aaea">
+<p>
+A common task at the command line is to read the standard output of a
+previous command, do something with it and write the transformed input
+onto the standard output. In Unix terminology such programs are called
+filters. Gosh offers some parameters to help write filters in Go at the
+command line.
+</p>
+
+<p>
+The 'run-in-readloop' parameter (or 'n' for short) will use a
+bufio.Scanner called '<sub>l</sub>' to read from standard input (by default) and
+the lines (with any newline removed) are then available to you using the
+'Text' method on the scanner.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">gosh -n -b 'count := 0' -e 'count++' -a-pln count
+</pre>
+</div>
+
+<p>
+This will count the lines like the Linux 'wc' command.
+</p>
+
+
+
+<p>
+If you want to split the line into parts run gosh passing the
+'split-line' (or 's') parameter. The default behaviour splits the line
+into words separated by one or more whitespace characters. You can change
+the regular expression used to split the line by passing the
+'split-pattern' (or 'sp') parameter. The parts are written into a slice
+of strings called '<sub>lp</sub>'.
+</p>
+
+<p>
+If you want to run the script over a list of files instead of over the
+standard input these files can be provided after the '&#x2013;' parameter. In
+this case the script will loop over each file in turn.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org0052bd0" class="outline-3">
+<h3 id="org0052bd0">Help</h3>
+<div class="outline-text-3" id="text-org0052bd0">
+</div>
+<div id="outline-container-org355d5c7" class="outline-4">
+<h4 id="org355d5c7">Summary</h4>
+<div class="outline-text-4" id="text-org355d5c7">
+<p>
+Gosh comes with a comprehensive manual built in. For the standard help
+message
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">gosh -help
+</pre>
+</div>
+
+<p>
+For the complete help message
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">gosh -help-full
+</pre>
+</div>
+
+<p>
+You can get help on individual parameters; this will just give the
+help for the exec parameter:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">gosh -help-param exec
+</pre>
+</div>
+
+<p>
+You can get help on groups of parameters; this will just give the
+help for the snippet listing parameters:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">gosh -help-group cmd-snippet-list
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0b0beaf" class="outline-3">
+<h3 id="org0b0beaf">Missing goimports command</h3>
+<div class="outline-text-3" id="text-org0b0beaf">
+</div>
+<div id="outline-container-org762e414" class="outline-4">
+<h4 id="org762e414">Summary</h4>
+<div class="outline-text-4" id="text-org762e414">
+<p>
+If you have goimports properly installed on your machine then gosh will
+run it to format the program before running it. This will add any import
+statements you need.
+</p>
+
+<p>
+There can be a number of problems:
+</p>
+<ul class="org-ul">
+<li>goimports is not installed</li>
+<li>it is installed but it isn't in any directory in the PATH</li>
+<li>it's deliberately not installed</li>
+</ul>
+
+<p>
+If it isn't installed then you can install it by following the
+instructions at <a href="https://pkg.go.dev/golang.org/x/tools/cmd/goimports">golang.org/x/tools/cmd/goimports</a>.
+</p>
+
+<p>
+If it is not in your PATH then you can tell gosh the
+formatter to use as follows:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">gosh -e 'fmt.Print("Hello,")
+     fmt.Println(" World!")' -formatter /home/me/go/bin/goimports
+</pre>
+</div>
+
+<p>
+If it's not installed and you don't want to install it
+then you will need to give all the imports explicitly.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">gosh -e 'var v rune; fmt.Println(unsafe.Sizeof(v))' -import unsafe -import fmt
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9a880bf" class="outline-4">
+<h4 id="org9a880bf">Discussion</h4>
+<div class="outline-text-4" id="text-org9a880bf">
+<p>
+The goimports program is a very useful tool - it will format your program
+just like gofmt but it will also find any packages that haven't been
+imported and it will add import statements for them. It can sometimes
+pick the wrong version of a module and so you might want to provide the
+package import explicitly even if it is available.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org63ff701" class="outline-3">
+<h3 id="org63ff701">goimports isn't finding my package</h3>
+<div class="outline-text-3" id="text-org63ff701">
+</div>
+<div id="outline-container-org9873b36" class="outline-4">
+<h4 id="org9873b36">Summary</h4>
+<div class="outline-text-4" id="text-org9873b36">
+<p>
+You have goimports installed and you've called some function from the
+package but goimports isn't finding it; what's the problem? The first
+thing to check is that you've got the function name correct and the right
+arguments, that's a common reason for failing to import the right
+package. Another reason, if the package has just been uploaded, is that
+the Go proxy might not have been updated yet. You can either wait a few
+minutes or else import the package by hand through the -import (or -I)
+parameter.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org21bc09f" class="outline-3">
+<h3 id="org21bc09f">Applying a gosh parameter every time it runs</h3>
+<div class="outline-text-3" id="text-org21bc09f">
+</div>
+<div id="outline-container-org08d3c0f" class="outline-4">
+<h4 id="org08d3c0f">Summary</h4>
+<div class="outline-text-4" id="text-org08d3c0f">
+<p>
+if you want to run gosh with a set of common parameters every time you
+can put these parameters in one of the configuration files. Run gosh
+as follows to see the configuration files.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">gosh -help-show sources
+</pre>
+</div>
+
+<p>
+Note that parameter names in configuration files don't start with a
+leading dash.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6d4d7ca" class="outline-4">
+<h4 id="org6d4d7ca">Discussion</h4>
+<div class="outline-text-4" id="text-org6d4d7ca">
+<p>
+You add parameters to the configuration file, one per line, with the
+parameter name (no leading dash) at the start of the line followed by an
+equals ("=") and then the parameter value. If the parameter does not take
+a value you can just give the parameter name. Blank lines are ignored and
+white space around the parts of the line are ignored. You can comment the
+file: any text from a "#" to the end of line is ignored. You can also
+keep configuration parameters in other files and import them with an
+@include directive. This might be more useful for commands with a lot
+more configuration parameters especially ones shared between multiple
+programs.
+</p>
+
+<p>
+The sort of parameters that you might want to have in your configuration
+files are:
+</p>
+<ul class="org-ul">
+<li>the names of some commands that gosh uses such as the formatter or the
+editor. In both these cases the default behaviour is usually what you
+want but the option is there if needed.</li>
+<li>the name of some additional snippet directory.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgea36b47" class="outline-3">
+<h3 id="orgea36b47">Command line parameter completion</h3>
+<div class="outline-text-3" id="text-orgea36b47">
+<p>
+Most modern shells offer command-specific parameter completion at the
+command prompt, gosh can help set this up.
+</p>
+</div>
+<div id="outline-container-orgffd3079" class="outline-4">
+<h4 id="orgffd3079">Summary</h4>
+<div class="outline-text-4" id="text-orgffd3079">
+<p>
+If you are using zsh you can get gosh to generate the parameter expansion
+file to support this. To find out more details call gosh as follows:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">gosh -help-group common.params-completion
+</pre>
+</div>
+
+<p>
+You will only need to do this once though you might want to repeat it
+when you upgrade gosh to a more recent version with more parameters.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3aeb2c9" class="outline-3">
+<h3 id="org3aeb2c9">Troubleshooting the generated program</h3>
+<div class="outline-text-3" id="text-org3aeb2c9">
+</div>
+<div id="outline-container-org1906f23" class="outline-4">
+<h4 id="org1906f23">Summary</h4>
+<div class="outline-text-4" id="text-org1906f23">
+<p>
+If the code you supply doesn't behave as you think it should you can
+always examine the generated program. If there is an error while running
+the program or it can't be run at all then it will usually show the name
+of the directory and file which will not have been cleared up as usual
+and so you can take a look at the generated code. Alternatively you can
+run gosh as follows:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">gosh -pln '"Hello World!"' -show-filename
+</pre>
+</div>
+
+<p>
+This will run the program as normal but will report the directory and
+file names and will not clear the directory when it finishes so you can
+examine the code. Alternatively, you can run gosh with the -edit
+parameter and it will open the gosh-generated program in your favourite
+editor just before running it and you can correct any problems or just
+take a look at what gets generated.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">gosh -pln '"Hello World!"' -edit
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcb59f80" class="outline-3">
+<h3 id="orgcb59f80">What is gosh doing</h3>
+<div class="outline-text-3" id="text-orgcb59f80">
+</div>
+<div id="outline-container-orgb35a239" class="outline-4">
+<h4 id="orgb35a239">Summary</h4>
+<div class="outline-text-4" id="text-orgb35a239">
+<p>
+If you run gosh as usual but add a "-verbose" parameter it will run the
+program but it will also print out messages explaining the steps it is
+taking and some timing information.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">gosh -pln '"Hello, World!"' -verbose
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf1f5cd1" class="outline-3">
+<h3 id="orgf1f5cd1">Useful shell aliases</h3>
+<div class="outline-text-3" id="text-orgf1f5cd1">
+</div>
+<div id="outline-container-org19ed8aa" class="outline-4">
+<h4 id="org19ed8aa">Summary</h4>
+<div class="outline-text-4" id="text-org19ed8aa">
+<p>
+Your shell may offer an alias feature so that you can access commands
+more quickly, here are a few suggestions for some aliases that speed up
+common gosh tasks. These work in zsh and bash at least. You might need to
+change the alias names if they clash with any existing aliases. Note that
+the aliases use the long parameter names for documentation purposes; the
+following comments give an equivalent short-form.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">alias g.e="gosh -exec"		# -e
+alias g.es="gosh -exec-snippet"	# -e-s
+alias g.p="gosh -println"		# -pln
+alias g.pf="gosh -printf"		# -pf
+alias g.h="gosh -help"		# -help
+alias g.has="gosh -help-all-short"	# -help-as
+alias g.hf="gosh -help-full"		# -help-f
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Nick Wells</p>
+<p class="date">Created: 2021-06-06 Sun 09:02</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
