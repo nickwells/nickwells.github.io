@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2021-06-06 Sun 09:01 -->
+<!-- 2021-06-06 Sun 14:37 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Go Recipes</title>
@@ -229,20 +229,20 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org5e7fcf9">Go Recipes</a>
+<li><a href="#orgd4656ff">Go Recipes</a>
 <ul>
-<li><a href="#org55eff57">Evaluating solutions</a></li>
-<li><a href="#org530abca">Using gosh to run the code</a></li>
-<li><a href="#orgd840fb4">Thanks</a></li>
-<li><a href="#orgdd3d4e9">Contents</a></li>
+<li><a href="#org85df466">Recipes</a></li>
+<li><a href="#orgc5fe2af">Using gosh to run the code</a></li>
+<li><a href="#orgf6fdc83">Evaluating solutions</a></li>
+<li><a href="#org95e3bdf">Thanks</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org5e7fcf9" class="outline-2">
-<h2 id="org5e7fcf9">Go Recipes</h2>
-<div class="outline-text-2" id="text-org5e7fcf9">
+<div id="outline-container-orgd4656ff" class="outline-2">
+<h2 id="orgd4656ff">Go Recipes</h2>
+<div class="outline-text-2" id="text-orgd4656ff">
 <p>
 This is a collection of discussions about how to use Go to solve problems
 and perform tasks. The focus is on practical problems that make up small
@@ -252,27 +252,28 @@ they are supposed to be self contained but you might find more detail and
 explanation in surrounding recipes. You can also just browse for ideas on
 how to write Go code.
 </p>
-</div>
 
-<div id="outline-container-org55eff57" class="outline-3">
-<h3 id="org55eff57">Evaluating solutions</h3>
-<div class="outline-text-3" id="text-org55eff57">
 <p>
-Some of the solutions use both standard library packages and third-party
-packages. When deciding which solution to use be aware that using a third
-party library introduces an extra dependency into your program. If the
-standard library solution meets your needs you are generally better off
-using that. The Go team will maintain this code and you can be sure that
-it will still be around into the foreseeable future. Third party packages
-can offer some very powerful alternatives and different approaches to
-problems that may be just right for you.
+See the section below on using gosh to run the code for advice on how you
+can see immediately from the command line what the recipe code does.
 </p>
 </div>
+
+<div id="outline-container-org85df466" class="outline-3">
+<h3 id="org85df466">Recipes</h3>
+<div class="outline-text-3" id="text-org85df466">
+<ul class="org-ul">
+<li><a href="strings.html">Strings</a></li>
+<li><a href="examiningValues.html">Examining Values</a></li>
+<li><a href="formatting.html">Formatting Output</a></li>
+<li><a href="Gosh.html">Gosh Tips</a></li>
+</ul>
+</div>
 </div>
 
-<div id="outline-container-org530abca" class="outline-3">
-<h3 id="org530abca">Using gosh to run the code</h3>
-<div class="outline-text-3" id="text-org530abca">
+<div id="outline-container-orgc5fe2af" class="outline-3">
+<h3 id="orgc5fe2af">Using gosh to run the code</h3>
+<div class="outline-text-3" id="text-orgc5fe2af">
 <p>
 The discussions are accompanied by fragments of Go code which can be run
 using the gosh command. See <a href="Gosh.html">Gosh Tips</a> for details.
@@ -299,15 +300,31 @@ This will print "Hello, World!".
 </p>
 
 <p>
-See the section on gosh tips below for lots more about how you can use
+See the section on gosh tips for lots more about how you can use
 gosh.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgd840fb4" class="outline-3">
-<h3 id="orgd840fb4">Thanks</h3>
-<div class="outline-text-3" id="text-orgd840fb4">
+<div id="outline-container-orgf6fdc83" class="outline-3">
+<h3 id="orgf6fdc83">Evaluating solutions</h3>
+<div class="outline-text-3" id="text-orgf6fdc83">
+<p>
+Some of the solutions use both standard library packages and third-party
+packages. When deciding which solution to use be aware that using a third
+party library introduces an extra dependency into your program. If the
+standard library solution meets your needs you are generally better off
+using that. The Go team will maintain this code and you can be sure that
+it will still be around into the foreseeable future. Third party packages
+can offer some very powerful alternatives and different approaches to
+problems that may be just right for you.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org95e3bdf" class="outline-3">
+<h3 id="org95e3bdf">Thanks</h3>
+<div class="outline-text-3" id="text-org95e3bdf">
 <p>
 Thanks to fniessen (see github.com/fniessen/org-html-themes) for the
 themes used to make the html generated from the emacs orgmode source look
@@ -315,23 +332,11 @@ as it does here.
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgdd3d4e9" class="outline-3">
-<h3 id="orgdd3d4e9">Contents</h3>
-<div class="outline-text-3" id="text-orgdd3d4e9">
-<ul class="org-ul">
-<li><a href="strings.html">Strings</a></li>
-<li><a href="examiningValues.html">Examining Values</a></li>
-<li><a href="formatting.html">Formatting Output</a></li>
-<li><a href="Gosh.html">Gosh Tips</a></li>
-</ul>
-</div>
-</div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Nick Wells</p>
-<p class="date">Created: 2021-06-06 Sun 09:01</p>
+<p class="date">Created: 2021-06-06 Sun 14:37</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
