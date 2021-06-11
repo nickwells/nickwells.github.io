@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2021-06-06 Sun 09:01 -->
+<!-- 2021-06-11 Fri 23:44 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Go Recipes - Strings</title>
@@ -229,26 +229,26 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orge0518ee">Strings</a>
+<li><a href="#org0c740ac">Strings</a>
 <ul>
-<li><a href="#org088d637">Strings one character at a time</a>
+<li><a href="#orgb596b57">Strings one character at a time</a>
 <ul>
-<li><a href="#orgb8e7a96">Summary</a></li>
-<li><a href="#org1762cca">Discussion</a></li>
+<li><a href="#org25eb0ac">Summary</a></li>
+<li><a href="#org3197f4c">Discussion</a></li>
 </ul>
 </li>
-<li><a href="#orge2df756">Substrings</a>
+<li><a href="#org7ef18e7">Substrings</a>
 <ul>
-<li><a href="#org2d1f406">Summary</a></li>
-<li><a href="#orgb496dcf">Discussion</a></li>
-<li><a href="#org3552bc0">References</a></li>
+<li><a href="#orga4ff695">Summary</a></li>
+<li><a href="#orgd50457c">Discussion</a></li>
+<li><a href="#org2306c1e">References</a></li>
 </ul>
 </li>
-<li><a href="#org501dc2f">Splitting a string into words</a>
+<li><a href="#org83102e9">Splitting a string into words</a>
 <ul>
-<li><a href="#org2137531">Summary</a></li>
-<li><a href="#org04a3ce3">Discussion</a></li>
-<li><a href="#org1cb388a">References</a></li>
+<li><a href="#org870751a">Summary</a></li>
+<li><a href="#org3345ecc">Discussion</a></li>
+<li><a href="#org20efad7">References</a></li>
 </ul>
 </li>
 </ul>
@@ -256,9 +256,9 @@
 </ul>
 </div>
 </div>
-<div id="outline-container-orge0518ee" class="outline-2">
-<h2 id="orge0518ee">Strings</h2>
-<div class="outline-text-2" id="text-orge0518ee">
+<div id="outline-container-org0c740ac" class="outline-2">
+<h2 id="org0c740ac">Strings</h2>
+<div class="outline-text-2" id="text-org0c740ac">
 <p>
 These recipes offer some tips for handling Go strings. There are some
 excellent Go packages in the standard library, most notably the strings
@@ -270,13 +270,13 @@ strings.
 For other recipes <a href="gorecipes.html">see here</a>.
 </p>
 </div>
-<div id="outline-container-org088d637" class="outline-3">
-<h3 id="org088d637">Strings one character at a time</h3>
-<div class="outline-text-3" id="text-org088d637">
+<div id="outline-container-orgb596b57" class="outline-3">
+<h3 id="orgb596b57">Strings one character at a time</h3>
+<div class="outline-text-3" id="text-orgb596b57">
 </div>
-<div id="outline-container-orgb8e7a96" class="outline-4">
-<h4 id="orgb8e7a96">Summary</h4>
-<div class="outline-text-4" id="text-orgb8e7a96">
+<div id="outline-container-org25eb0ac" class="outline-4">
+<h4 id="org25eb0ac">Summary</h4>
+<div class="outline-text-4" id="text-org25eb0ac">
 <p>
 If you just want to go through the string from start to end then you can
 use a simple range loop, this will present the characters one at a time
@@ -305,9 +305,9 @@ fmt.Printf("%c\n", r[4])
 </div>
 </div>
 
-<div id="outline-container-org1762cca" class="outline-4">
-<h4 id="org1762cca">Discussion</h4>
-<div class="outline-text-4" id="text-org1762cca">
+<div id="outline-container-org3197f4c" class="outline-4">
+<h4 id="org3197f4c">Discussion</h4>
+<div class="outline-text-4" id="text-org3197f4c">
 <p>
 Let's establish what we mean by 'character'. In Go a string
 is a sequence of bytes but this is not what we are talking about. By
@@ -345,13 +345,13 @@ period at the end of the string to illustrate the difference.
 <div class="org-src-container">
 <pre class="src src-go">s := "Pi: π."
 
-for i, ch := range s {
-	fmt.Printf("[%d]%c 0x%[2]x %08[2]b  ", i, ch)
+for i, r := range s {
+	fmt.Printf("[%d]%c 0x%[2]x %08[2]b  ", i, r)
 }
 fmt.Println()
 
-for i, ch := range []rune(s) {
-	fmt.Printf("[%d]%c 0x%[2]x %08[2]b  ", i, ch)
+for i, r := range []rune(s) {
+	fmt.Printf("[%d]%c 0x%[2]x %08[2]b  ", i, r)
 }
 fmt.Println()
 </pre>
@@ -388,17 +388,17 @@ pi.
 </div>
 </div>
 </div>
-<div id="outline-container-orge2df756" class="outline-3">
-<h3 id="orge2df756">Substrings</h3>
-<div class="outline-text-3" id="text-orge2df756">
+<div id="outline-container-org7ef18e7" class="outline-3">
+<h3 id="org7ef18e7">Substrings</h3>
+<div class="outline-text-3" id="text-org7ef18e7">
 <p>
 Go offers several ways of extracting substrings but you need to
 understand strings and how they are encoded to know which is best.
 </p>
 </div>
-<div id="outline-container-org2d1f406" class="outline-4">
-<h4 id="org2d1f406">Summary</h4>
-<div class="outline-text-4" id="text-org2d1f406">
+<div id="outline-container-orga4ff695" class="outline-4">
+<h4 id="orga4ff695">Summary</h4>
+<div class="outline-text-4" id="text-orga4ff695">
 <p>
 To get the last character of a string you will need to convert it into a
 slice of runes and then take the last element of that slice as follows:
@@ -427,9 +427,9 @@ order to print it.
 </div>
 </div>
 
-<div id="outline-container-orgb496dcf" class="outline-4">
-<h4 id="orgb496dcf">Discussion</h4>
-<div class="outline-text-4" id="text-orgb496dcf">
+<div id="outline-container-orgd50457c" class="outline-4">
+<h4 id="orgd50457c">Discussion</h4>
+<div class="outline-text-4" id="text-orgd50457c">
 <p>
 You can take a substring in a number of ways but you need to be aware of
 the distinction between bytes and runes. A string is an array of bytes
@@ -460,9 +460,9 @@ as there is even a single multi-byte rune.
 </div>
 </div>
 
-<div id="outline-container-org3552bc0" class="outline-4">
-<h4 id="org3552bc0">References</h4>
-<div class="outline-text-4" id="text-org3552bc0">
+<div id="outline-container-org2306c1e" class="outline-4">
+<h4 id="org2306c1e">References</h4>
+<div class="outline-text-4" id="text-org2306c1e">
 <p>
 see the standard packages <a href="https://pkg.go.dev/unicode/utf8">unicode/utf8</a>, <a href="https://pkg.go.dev/strings">strings</a> and <a href="https://pkg.go.dev/regexp">regexp</a> and the
 Go blog entry by Rob Pike <a href="https://blog.golang.org/strings">Strings, bytes, runes and characters in Go</a>.
@@ -470,13 +470,13 @@ Go blog entry by Rob Pike <a href="https://blog.golang.org/strings">Strings, byt
 </div>
 </div>
 </div>
-<div id="outline-container-org501dc2f" class="outline-3">
-<h3 id="org501dc2f">Splitting a string into words</h3>
-<div class="outline-text-3" id="text-org501dc2f">
+<div id="outline-container-org83102e9" class="outline-3">
+<h3 id="org83102e9">Splitting a string into words</h3>
+<div class="outline-text-3" id="text-org83102e9">
 </div>
-<div id="outline-container-org2137531" class="outline-4">
-<h4 id="org2137531">Summary</h4>
-<div class="outline-text-4" id="text-org2137531">
+<div id="outline-container-org870751a" class="outline-4">
+<h4 id="org870751a">Summary</h4>
+<div class="outline-text-4" id="text-org870751a">
 <p>
 The simplest way is to use the Split function from the strings package to
 divide the string up around spaces, as follows:
@@ -501,9 +501,9 @@ it will return all the substrings.
 </p>
 </div>
 </div>
-<div id="outline-container-org04a3ce3" class="outline-4">
-<h4 id="org04a3ce3">Discussion</h4>
-<div class="outline-text-4" id="text-org04a3ce3">
+<div id="outline-container-org3345ecc" class="outline-4">
+<h4 id="org3345ecc">Discussion</h4>
+<div class="outline-text-4" id="text-org3345ecc">
 <p>
 If you have run these code fragments in gosh you will notice that they
 both produce the same results so why do I say that the regexp version is
@@ -560,9 +560,9 @@ SplitN function from the strings package.
 </p>
 </div>
 </div>
-<div id="outline-container-org1cb388a" class="outline-4">
-<h4 id="org1cb388a">References</h4>
-<div class="outline-text-4" id="text-org1cb388a">
+<div id="outline-container-org20efad7" class="outline-4">
+<h4 id="org20efad7">References</h4>
+<div class="outline-text-4" id="text-org20efad7">
 <p>
 See the standard packages  <a href="https://pkg.go.dev/strings">strings</a> and <a href="https://pkg.go.dev/regexp">regexp</a>.
 </p>
@@ -573,7 +573,7 @@ See the standard packages  <a href="https://pkg.go.dev/strings">strings</a> and 
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Nick Wells</p>
-<p class="date">Created: 2021-06-06 Sun 09:01</p>
+<p class="date">Created: 2021-06-11 Fri 23:44</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

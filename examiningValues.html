@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2021-06-06 Sun 09:02 -->
+<!-- 2021-06-11 Fri 23:44 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Go Recipes - Examining Values</title>
@@ -229,25 +229,25 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org8c7e5db">Examining Values</a>
+<li><a href="#org8bcc85b">Examining Values</a>
 <ul>
-<li><a href="#org26de4c6">Finding the memory used by a value</a>
+<li><a href="#org2262df0">Finding the memory used by a value</a>
 <ul>
-<li><a href="#org6712ba4">Summary</a></li>
-<li><a href="#orgdaccad5">Discussion</a></li>
-<li><a href="#orgc6ca6e8">References</a></li>
+<li><a href="#orgb578c8a">Summary</a></li>
+<li><a href="#orgccac62e">Discussion</a></li>
+<li><a href="#org61a06bc">References</a></li>
 </ul>
 </li>
-<li><a href="#org1ca90c8">Displaying the contents of a value of unknown type</a>
+<li><a href="#orgc9bc732">Displaying the contents of a value of unknown type</a>
 <ul>
-<li><a href="#orga8e98b5">Summary</a></li>
-<li><a href="#org6c7f99f">References</a></li>
+<li><a href="#org253ea4f">Summary</a></li>
+<li><a href="#orgb48d49d">References</a></li>
 </ul>
 </li>
-<li><a href="#orgd89d9cc">Displaying the type of a value</a>
+<li><a href="#orga8f9e05">Displaying the type of a value</a>
 <ul>
-<li><a href="#orga7ad697">Summary</a></li>
-<li><a href="#org3fc7b14">References</a></li>
+<li><a href="#org1fed9ca">Summary</a></li>
+<li><a href="#orgd625cdf">References</a></li>
 </ul>
 </li>
 </ul>
@@ -255,9 +255,9 @@
 </ul>
 </div>
 </div>
-<div id="outline-container-org8c7e5db" class="outline-2">
-<h2 id="org8c7e5db">Examining Values</h2>
-<div class="outline-text-2" id="text-org8c7e5db">
+<div id="outline-container-org8bcc85b" class="outline-2">
+<h2 id="org8bcc85b">Examining Values</h2>
+<div class="outline-text-2" id="text-org8bcc85b">
 <p>
 These recipes offer some tips for examining Go values.
 </p>
@@ -266,13 +266,13 @@ These recipes offer some tips for examining Go values.
 For other recipes <a href="gorecipes.html">see here</a>.
 </p>
 </div>
-<div id="outline-container-org26de4c6" class="outline-3">
-<h3 id="org26de4c6">Finding the memory used by a value</h3>
-<div class="outline-text-3" id="text-org26de4c6">
+<div id="outline-container-org2262df0" class="outline-3">
+<h3 id="org2262df0">Finding the memory used by a value</h3>
+<div class="outline-text-3" id="text-org2262df0">
 </div>
-<div id="outline-container-org6712ba4" class="outline-4">
-<h4 id="org6712ba4">Summary</h4>
-<div class="outline-text-4" id="text-org6712ba4">
+<div id="outline-container-orgb578c8a" class="outline-4">
+<h4 id="orgb578c8a">Summary</h4>
+<div class="outline-text-4" id="text-orgb578c8a">
 <p>
 Go has no builtin sizeof operator such as we have in languages like C but
 the standard library has something that can help.
@@ -292,15 +292,24 @@ type of v.
 </div>
 </div>
 
-<div id="outline-container-orgdaccad5" class="outline-4">
-<h4 id="orgdaccad5">Discussion</h4>
-<div class="outline-text-4" id="text-orgdaccad5">
+<div id="outline-container-orgccac62e" class="outline-4">
+<h4 id="orgccac62e">Discussion</h4>
+<div class="outline-text-4" id="text-orgccac62e">
 <p>
 The unsafe package is, as the name suggests, not for general use; the
-documentation states: "Packages that import unsafe may be non-portable
-and are not protected by the Go 1 compatibility guidelines". For the
-limited purpose of understanding how much space a particular data type
-requires it works just fine.
+documentation states:
+</p>
+
+<blockquote>
+<p>
+Packages that import unsafe may be non-portable
+and are not protected by the Go 1 compatibility guidelines.
+</p>
+</blockquote>
+
+<p>
+For the limited purpose of understanding how much space a particular data
+type requires it works just fine.
 </p>
 
 <p>
@@ -327,9 +336,9 @@ Now let's look at a struct:
 
 <div class="org-src-container">
 <pre class="src src-go">s := struct{
-	s string
-	i int
-	f float64
+      s string
+      i int
+      f float64
 }{"Hello, World!", 42, 3.14}
 fmt.Println(unsafe.Sizeof(s))
 </pre>
@@ -348,9 +357,9 @@ You can see this more clearly with a slice:
 <div class="org-src-container">
 <pre class="src src-go">type t struct{
 	s string
-	       i int
-	       f float64
-       }
+	i int
+	f float64
+}
 
 s1 := []t{ {"Hello, World!", 42, 3.14} }
 fmt.Println(unsafe.Sizeof(s1))
@@ -400,7 +409,7 @@ of the objects in the slots are. Like this:
 <pre class="src src-go">s := make([]int, 0, 9)
 var v int
 fmt.Println(uint64(cap(s)) * uint64(unsafe.Sizeof(v)) +
-		  uint64(unsafe.Sizeof(s)))
+	uint64(unsafe.Sizeof(s)))
 </pre>
 </div>
 
@@ -410,22 +419,24 @@ type tree.
 </p>
 </div>
 </div>
-<div id="outline-container-orgc6ca6e8" class="outline-4">
-<h4 id="orgc6ca6e8">References</h4>
-<div class="outline-text-4" id="text-orgc6ca6e8">
+
+<div id="outline-container-org61a06bc" class="outline-4">
+<h4 id="org61a06bc">References</h4>
+<div class="outline-text-4" id="text-org61a06bc">
 <p>
 See the standard package <a href="https://pkg.go.dev/unsafe">unsafe</a>.
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org1ca90c8" class="outline-3">
-<h3 id="org1ca90c8">Displaying the contents of a value of unknown type</h3>
-<div class="outline-text-3" id="text-org1ca90c8">
+
+<div id="outline-container-orgc9bc732" class="outline-3">
+<h3 id="orgc9bc732">Displaying the contents of a value of unknown type</h3>
+<div class="outline-text-3" id="text-orgc9bc732">
 </div>
-<div id="outline-container-orga8e98b5" class="outline-4">
-<h4 id="orga8e98b5">Summary</h4>
-<div class="outline-text-4" id="text-orga8e98b5">
+<div id="outline-container-org253ea4f" class="outline-4">
+<h4 id="org253ea4f">Summary</h4>
+<div class="outline-text-4" id="text-org253ea4f">
 <p>
 a value can be shown with the 'v' verb in the standard fmt package as
 follows:
@@ -437,36 +448,37 @@ follows:
       i int
       f float64
 }{"", 42, 3.14}
-  fmt.Printf("%%v:  %v\n", v)
-  fmt.Printf("%%+v: %+v\n", v)
-  fmt.Printf("%%#v: %#v\n", v)
+fmt.Printf("%%v:  %v\n", v)
+fmt.Printf("%%+v: %+v\n", v)
+fmt.Printf("%%#v: %#v\n", v)
 </pre>
 </div>
 
 <p>
 This prints the value in three different forms. Firstly in the default,
 minimal form, then, using the '+' flag, with the field names as well and
-finally, using the '#' flag you get a Go syntax representation of the
+finally, using the '#' flag you get a Go-syntax representation of the
 value which includes the data type.
 </p>
 </div>
 </div>
-<div id="outline-container-org6c7f99f" class="outline-4">
-<h4 id="org6c7f99f">References</h4>
-<div class="outline-text-4" id="text-org6c7f99f">
+<div id="outline-container-orgb48d49d" class="outline-4">
+<h4 id="orgb48d49d">References</h4>
+<div class="outline-text-4" id="text-orgb48d49d">
 <p>
 See the standard package <a href="https://pkg.go.dev/fmt">fmt</a>.
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd89d9cc" class="outline-3">
-<h3 id="orgd89d9cc">Displaying the type of a value</h3>
-<div class="outline-text-3" id="text-orgd89d9cc">
+
+<div id="outline-container-orga8f9e05" class="outline-3">
+<h3 id="orga8f9e05">Displaying the type of a value</h3>
+<div class="outline-text-3" id="text-orga8f9e05">
 </div>
-<div id="outline-container-orga7ad697" class="outline-4">
-<h4 id="orga7ad697">Summary</h4>
-<div class="outline-text-4" id="text-orga7ad697">
+<div id="outline-container-org1fed9ca" class="outline-4">
+<h4 id="org1fed9ca">Summary</h4>
+<div class="outline-text-4" id="text-org1fed9ca">
 <p>
 The type value can be shown with the 'T' verb in the standard fmt package as
 follows:
@@ -487,9 +499,10 @@ any flags.
 </p>
 </div>
 </div>
-<div id="outline-container-org3fc7b14" class="outline-4">
-<h4 id="org3fc7b14">References</h4>
-<div class="outline-text-4" id="text-org3fc7b14">
+
+<div id="outline-container-orgd625cdf" class="outline-4">
+<h4 id="orgd625cdf">References</h4>
+<div class="outline-text-4" id="text-orgd625cdf">
 <p>
 See the standard package <a href="https://pkg.go.dev/fmt">fmt</a>.
 </p>
@@ -500,7 +513,7 @@ See the standard package <a href="https://pkg.go.dev/fmt">fmt</a>.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Nick Wells</p>
-<p class="date">Created: 2021-06-06 Sun 09:02</p>
+<p class="date">Created: 2021-06-11 Fri 23:44</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
