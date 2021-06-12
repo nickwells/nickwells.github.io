@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2021-06-11 Fri 23:44 -->
+<!-- 2021-06-12 Sat 18:00 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Go Recipes - Formatting Output</title>
@@ -229,38 +229,38 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgf143231">Formatting Output</a>
+<li><a href="#org8241074">Formatting Output</a>
 <ul>
-<li><a href="#org9af1c81">Custom formatting of data types</a>
+<li><a href="#orge9d46d2">Custom formatting of data types</a>
 <ul>
-<li><a href="#orgf316efe">Summary</a></li>
-<li><a href="#orgff8f420">References</a></li>
+<li><a href="#org991f173">Summary</a></li>
+<li><a href="#orgb171b2f">References</a></li>
 </ul>
 </li>
-<li><a href="#orge35e6e6">Custom formatting of the Go-syntax representation</a>
+<li><a href="#org476713a">Custom formatting of the Go-syntax representation</a>
 <ul>
-<li><a href="#org704fe86">Summary</a></li>
-<li><a href="#orgf77060e">References</a></li>
+<li><a href="#orgd7d1cf8">Summary</a></li>
+<li><a href="#org4c59ab1">References</a></li>
 </ul>
 </li>
-<li><a href="#org8badf25">Complete control over formatting</a>
+<li><a href="#org2590e7e">Complete control over formatting</a>
 <ul>
-<li><a href="#org2fe6117">Summary</a></li>
-<li><a href="#org66d66da">References</a></li>
+<li><a href="#orgc2bfa21">Summary</a></li>
+<li><a href="#org841b154">References</a></li>
 </ul>
 </li>
-<li><a href="#orgc0861ae">Wrapping text</a>
+<li><a href="#orgf55900f">Wrapping text</a>
 <ul>
-<li><a href="#org5e2ca60">Summary</a></li>
-<li><a href="#org20bed07">Discussion</a></li>
-<li><a href="#orgdd9f9e0">References</a></li>
+<li><a href="#orgff7856f">Summary</a></li>
+<li><a href="#org4c7f247">Discussion</a></li>
+<li><a href="#orga523ef6">References</a></li>
 </ul>
 </li>
-<li><a href="#orga32f82c">Tabulating data</a>
+<li><a href="#org4b114f8">Tabulating data</a>
 <ul>
-<li><a href="#org9bf6f55">Summary</a></li>
-<li><a href="#orgf2414b8">Discussion</a></li>
-<li><a href="#org2f40d8c">References</a></li>
+<li><a href="#orgcd193b2">Summary</a></li>
+<li><a href="#orgfadf895">Discussion</a></li>
+<li><a href="#orgeeb44d8">References</a></li>
 </ul>
 </li>
 </ul>
@@ -268,9 +268,9 @@
 </ul>
 </div>
 </div>
-<div id="outline-container-orgf143231" class="outline-2">
-<h2 id="orgf143231">Formatting Output</h2>
-<div class="outline-text-2" id="text-orgf143231">
+<div id="outline-container-org8241074" class="outline-2">
+<h2 id="org8241074">Formatting Output</h2>
+<div class="outline-text-2" id="text-org8241074">
 <p>
 These recipes offer some tips for formatting Go output. We first dicuss
 some less well known features of the standard fmt package and then go on to
@@ -282,15 +282,15 @@ offer.
 For other recipes <a href="gorecipes.html">see here</a>.
 </p>
 </div>
-<div id="outline-container-org9af1c81" class="outline-3">
-<h3 id="org9af1c81">Custom formatting of data types</h3>
-<div class="outline-text-3" id="text-org9af1c81">
+<div id="outline-container-orge9d46d2" class="outline-3">
+<h3 id="orge9d46d2">Custom formatting of data types</h3>
+<div class="outline-text-3" id="text-orge9d46d2">
 </div>
-<div id="outline-container-orgf316efe" class="outline-4">
-<h4 id="orgf316efe">Summary</h4>
-<div class="outline-text-4" id="text-orgf316efe">
+<div id="outline-container-org991f173" class="outline-4">
+<h4 id="org991f173">Summary</h4>
+<div class="outline-text-4" id="text-org991f173">
 <p>
-The <a href="http://golang.org/package/fmt">fmt</a> package is the standard tool you should use for formatting output
+The <a href="http://pkg.go.dev/fmt">fmt</a> package is the standard tool you should use for formatting output
 but you can extend it and tune the behaviour for your own data types. The
 simplest way to adjust the output that fmt will produce is to write a
 'String' method for your type as follows.
@@ -345,19 +345,19 @@ and "%+v" (or "%s").
 </div>
 </div>
 
-<div id="outline-container-orgff8f420" class="outline-4">
-<h4 id="orgff8f420">References</h4>
-<div class="outline-text-4" id="text-orgff8f420">
+<div id="outline-container-orgb171b2f" class="outline-4">
+<h4 id="orgb171b2f">References</h4>
+<div class="outline-text-4" id="text-orgb171b2f">
 <p>
-see the standard package <a href="https://golang.org/pkg/fmt">fmt</a>
+See the standard package <a href="https://pkg.go.dev/fmt">fmt</a>
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orge35e6e6" class="outline-3">
-<h3 id="orge35e6e6">Custom formatting of the Go-syntax representation</h3>
-<div class="outline-text-3" id="text-orge35e6e6">
+<div id="outline-container-org476713a" class="outline-3">
+<h3 id="org476713a">Custom formatting of the Go-syntax representation</h3>
+<div class="outline-text-3" id="text-org476713a">
 <p>
 The fmt package verb 'v' can also be used to produce a Go-syntax
 representation of the value when given a '#' flag. We'll discuss here how
@@ -365,9 +365,9 @@ we can control the output in this case.
 </p>
 </div>
 
-<div id="outline-container-org704fe86" class="outline-4">
-<h4 id="org704fe86">Summary</h4>
-<div class="outline-text-4" id="text-org704fe86">
+<div id="outline-container-orgd7d1cf8" class="outline-4">
+<h4 id="orgd7d1cf8">Summary</h4>
+<div class="outline-text-4" id="text-orgd7d1cf8">
 <p>
 The String method on a type is used, if it exists, by the fmt package to
 display a value in a lot of cases. The "%#v" format though will not use
@@ -420,23 +420,23 @@ fmt.Printf("     %%#v: %#v\n", s)
 </div>
 </div>
 
-<div id="outline-container-orgf77060e" class="outline-4">
-<h4 id="orgf77060e">References</h4>
-<div class="outline-text-4" id="text-orgf77060e">
+<div id="outline-container-org4c59ab1" class="outline-4">
+<h4 id="org4c59ab1">References</h4>
+<div class="outline-text-4" id="text-org4c59ab1">
 <p>
-see the standard package <a href="https://golang.org/pkg/fmt">fmt</a>
+See the standard package <a href="https://pkg.go.dev/fmt">fmt</a>
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org8badf25" class="outline-3">
-<h3 id="org8badf25">Complete control over formatting</h3>
-<div class="outline-text-3" id="text-org8badf25">
+<div id="outline-container-org2590e7e" class="outline-3">
+<h3 id="org2590e7e">Complete control over formatting</h3>
+<div class="outline-text-3" id="text-org2590e7e">
 </div>
-<div id="outline-container-org2fe6117" class="outline-4">
-<h4 id="org2fe6117">Summary</h4>
-<div class="outline-text-4" id="text-org2fe6117">
+<div id="outline-container-orgc2bfa21" class="outline-4">
+<h4 id="orgc2bfa21">Summary</h4>
+<div class="outline-text-4" id="text-orgc2bfa21">
 <p>
 If you need complete control over the display of your value you can
 provide a Format method. This gives your formatting code access to the
@@ -499,23 +499,23 @@ the first two and the GoString method is only used for the last form.
 </div>
 </div>
 
-<div id="outline-container-org66d66da" class="outline-4">
-<h4 id="org66d66da">References</h4>
-<div class="outline-text-4" id="text-org66d66da">
+<div id="outline-container-org841b154" class="outline-4">
+<h4 id="org841b154">References</h4>
+<div class="outline-text-4" id="text-org841b154">
 <p>
-see the standard package <a href="https://golang.org/pkg/fmt">fmt</a>
+See the standard package <a href="https://pkg.go.dev/fmt">fmt</a>
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgc0861ae" class="outline-3">
-<h3 id="orgc0861ae">Wrapping text</h3>
-<div class="outline-text-3" id="text-orgc0861ae">
+<div id="outline-container-orgf55900f" class="outline-3">
+<h3 id="orgf55900f">Wrapping text</h3>
+<div class="outline-text-3" id="text-orgf55900f">
 </div>
-<div id="outline-container-org5e2ca60" class="outline-4">
-<h4 id="org5e2ca60">Summary</h4>
-<div class="outline-text-4" id="text-org5e2ca60">
+<div id="outline-container-orgff7856f" class="outline-4">
+<h4 id="orgff7856f">Summary</h4>
+<div class="outline-text-4" id="text-orgff7856f">
 <p>
 If you have a large block of text that you want to display to the user
 you have a problem. The issue is that simply printing it out will mean
@@ -536,9 +536,9 @@ Alternatively you can use a package to do the wrapping for you.
 </div>
 </div>
 
-<div id="outline-container-org20bed07" class="outline-4">
-<h4 id="org20bed07">Discussion</h4>
-<div class="outline-text-4" id="text-org20bed07">
+<div id="outline-container-org4c7f247" class="outline-4">
+<h4 id="org4c7f247">Discussion</h4>
+<div class="outline-text-4" id="text-org4c7f247">
 <p>
 There are several text wrapping packages available. I've chosen three and
 I'll discuss them in order of complexity. Some of the packages have
@@ -551,8 +551,8 @@ to import.
 </div>
 
 <ul class="org-ul">
-<li><a id="org5a41e02"></a>go-wordwrap<br />
-<div class="outline-text-5" id="text-org5a41e02">
+<li><a id="org77fa12f"></a>go-wordwrap<br />
+<div class="outline-text-5" id="text-org77fa12f">
 <p>
 The first package is <a href="https://pkg.go.dev/github.com/mitchellh/go-wordwrap">go-wordwrap</a> (with package name "wordwrap"); this
 offers one method: WrapString which simply returns a string wrapped at
@@ -586,8 +586,8 @@ minimal changes recently.
 </div>
 </li>
 
-<li><a id="orgdd67b61"></a>wordwrap<br />
-<div class="outline-text-5" id="text-orgdd67b61">
+<li><a id="org0bf05c3"></a>wordwrap<br />
+<div class="outline-text-5" id="text-org0bf05c3">
 <p>
 The next package is <a href="https://pkg.go.dev/github.com/eidolon/wordwrap">wordwrap</a>; this is a bit more complicated. You first
 generate a WrapperFunc and then call it on the strings you want to
@@ -662,8 +662,8 @@ few years.
 </div>
 </li>
 
-<li><a id="org5529d32"></a>twrap<br />
-<div class="outline-text-5" id="text-org5529d32">
+<li><a id="orgaa33886"></a>twrap<br />
+<div class="outline-text-5" id="text-orgaa33886">
 <p>
 The last package we'll discuss is <a href="https://pkg.go.dev/github.com/nickwells/twrap.mod/twrap">twrap</a> (for t(ext)wrap); this takes a
 different approach and offers much more control over how the text is
@@ -675,8 +675,10 @@ Like the last package we discussed, to use it you first construct an
 object and then call wrapping functions on that. It differs from either
 of the other packages in that it writes the text directly rather than
 returning a string. You can choose the writer when you create the
-wrapper, the default is standard out. Like the first package discussed it
-will not split words outside of word boundaries.
+wrapper, the default is standard out. If you want a string you can pass a
+<a href="https://pkg.go.dev/bytes">bytes</a>.<a href="https://pkg.go.dev/bytes/#Buffer">Buffer</a> which satisfies the <a href="https://pkg.go.dev/io">io</a>.<a href="https://pkg.go.dev/io/#Writer">Writer</a> interface and then call the
+<a href="https://pkg.go.dev/bytes/#Buffer.String">String</a> method on the buffer. Like the first package discussed it will not
+split words outside of word boundaries.
 </p>
 
 <div class="org-src-container">
@@ -817,23 +819,23 @@ Lastly, this package is in a Go module and is actively maintained.
 </ul>
 </div>
 
-<div id="outline-container-orgdd9f9e0" class="outline-4">
-<h4 id="orgdd9f9e0">References</h4>
-<div class="outline-text-4" id="text-orgdd9f9e0">
+<div id="outline-container-orga523ef6" class="outline-4">
+<h4 id="orga523ef6">References</h4>
+<div class="outline-text-4" id="text-orga523ef6">
 <p>
-see <a href="https://pkg.go.dev/github.com/nickwells/twrap.mod/twrap">twrap</a>, <a href="https://pkg.go.dev/github.com/mitchellh/go-wordwrap">go-wordwrap</a> and <a href="https://pkg.go.dev/github.com/eidolon/wordwrap">wordwrap</a>
+See <a href="https://pkg.go.dev/github.com/nickwells/twrap.mod/twrap">twrap</a>, <a href="https://pkg.go.dev/github.com/mitchellh/go-wordwrap">go-wordwrap</a> and <a href="https://pkg.go.dev/github.com/eidolon/wordwrap">wordwrap</a>
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orga32f82c" class="outline-3">
-<h3 id="orga32f82c">Tabulating data</h3>
-<div class="outline-text-3" id="text-orga32f82c">
+<div id="outline-container-org4b114f8" class="outline-3">
+<h3 id="org4b114f8">Tabulating data</h3>
+<div class="outline-text-3" id="text-org4b114f8">
 </div>
-<div id="outline-container-org9bf6f55" class="outline-4">
-<h4 id="org9bf6f55">Summary</h4>
-<div class="outline-text-4" id="text-org9bf6f55">
+<div id="outline-container-orgcd193b2" class="outline-4">
+<h4 id="orgcd193b2">Summary</h4>
+<div class="outline-text-4" id="text-orgcd193b2">
 <p>
 Tables are a standard way of showing information especially when you have
 a lot of data to report. So how can you build tables in Go? As is often
@@ -842,20 +844,20 @@ other packages available as well.
 </p>
 
 <p>
-I'll discuss two packages, <a href="https://golang.org/pkg/text/tabwriter/">tabwriter</a> from the standard library and the
+I'll discuss two packages, <a href="https://pkg.go.dev/text/tabwriter/">tabwriter</a> from the standard library and the
 <a href="http://pkg.go.dev/github.com/nickwells/col.mod/v3/col">col</a> package. Although they both will print tables they take a very
 different approach and offer very different interfaces.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgf2414b8" class="outline-4">
-<h4 id="orgf2414b8">Discussion</h4>
-<div class="outline-text-4" id="text-orgf2414b8">
+<div id="outline-container-orgfadf895" class="outline-4">
+<h4 id="orgfadf895">Discussion</h4>
+<div class="outline-text-4" id="text-orgfadf895">
 </div>
 <ul class="org-ul">
-<li><a id="org7c1095a"></a>tabwriter<br />
-<div class="outline-text-5" id="text-org7c1095a">
+<li><a id="orgef77976"></a>tabwriter<br />
+<div class="outline-text-5" id="text-orgef77976">
 <p>
 The tabwriter package provides a filter that you can write to and that
 will pad its output into columns defined by tabs in the input. Let's
@@ -891,8 +893,8 @@ the padding value gives more space between the columns of text.
 </div>
 </li>
 
-<li><a id="org5dd2207"></a>col<br />
-<div class="outline-text-5" id="text-org5dd2207">
+<li><a id="org006924a"></a>col<br />
+<div class="outline-text-5" id="text-org006924a">
 <p>
 The col package is more complicated than tabwriter but it can do a lot
 more. It takes a very different approach.
@@ -1009,11 +1011,11 @@ terminal this is worth investigating.
 </ul>
 </div>
 
-<div id="outline-container-org2f40d8c" class="outline-4">
-<h4 id="org2f40d8c">References</h4>
-<div class="outline-text-4" id="text-org2f40d8c">
+<div id="outline-container-orgeeb44d8" class="outline-4">
+<h4 id="orgeeb44d8">References</h4>
+<div class="outline-text-4" id="text-orgeeb44d8">
 <p>
-see <a href="http://pkg.go.dev/github.com/nickwells/col.mod/v3/col">col</a> and <a href="https://golang.org/pkg/text/tabwriter/">tabwriter</a>
+See <a href="http://pkg.go.dev/github.com/nickwells/col.mod/v3/col">col</a> and <a href="https://pkg.go.dev/text/tabwriter/">tabwriter</a>
 </p>
 </div>
 </div>
@@ -1022,7 +1024,7 @@ see <a href="http://pkg.go.dev/github.com/nickwells/col.mod/v3/col">col</a> and 
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Nick Wells</p>
-<p class="date">Created: 2021-06-11 Fri 23:44</p>
+<p class="date">Created: 2021-06-12 Sat 18:00</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
