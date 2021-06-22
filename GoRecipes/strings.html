@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2021-06-12 Sat 18:01 -->
+<!-- 2021-06-22 Tue 14:19 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Go Recipes - Strings</title>
@@ -229,26 +229,26 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org0d85a42">Strings</a>
+<li><a href="#org58da859">Strings</a>
 <ul>
-<li><a href="#orgc42fbe2">Strings one character at a time</a>
+<li><a href="#org73df58b">Strings one character at a time</a>
 <ul>
-<li><a href="#orgc511425">Summary</a></li>
-<li><a href="#orge29d685">Discussion</a></li>
+<li><a href="#orga6c2702">Summary</a></li>
+<li><a href="#org0ab511a">Discussion</a></li>
 </ul>
 </li>
-<li><a href="#orgaa4c9aa">Substrings</a>
+<li><a href="#org5083701">Substrings</a>
 <ul>
-<li><a href="#orgebda28b">Summary</a></li>
-<li><a href="#org8168c75">Discussion</a></li>
-<li><a href="#org2b94a57">References</a></li>
+<li><a href="#org0f43e8b">Summary</a></li>
+<li><a href="#org9625c28">Discussion</a></li>
+<li><a href="#org3d1b4b7">References</a></li>
 </ul>
 </li>
-<li><a href="#org80321fb">Splitting a string into words</a>
+<li><a href="#org027518a">Splitting a string into words</a>
 <ul>
-<li><a href="#org8e2ba9f">Summary</a></li>
-<li><a href="#orgf8bb12d">Discussion</a></li>
-<li><a href="#org66bfc83">References</a></li>
+<li><a href="#org205bcda">Summary</a></li>
+<li><a href="#org2bbbe77">Discussion</a></li>
+<li><a href="#org7a0e6f6">References</a></li>
 </ul>
 </li>
 </ul>
@@ -256,9 +256,9 @@
 </ul>
 </div>
 </div>
-<div id="outline-container-org0d85a42" class="outline-2">
-<h2 id="org0d85a42">Strings</h2>
-<div class="outline-text-2" id="text-org0d85a42">
+<div id="outline-container-org58da859" class="outline-2">
+<h2 id="org58da859">Strings</h2>
+<div class="outline-text-2" id="text-org58da859">
 <p>
 These recipes offer some tips for handling Go strings. There are some
 excellent Go packages in the standard library, most notably the strings
@@ -270,13 +270,13 @@ strings.
 For other recipes <a href="gorecipes.html">see here</a>.
 </p>
 </div>
-<div id="outline-container-orgc42fbe2" class="outline-3">
-<h3 id="orgc42fbe2">Strings one character at a time</h3>
-<div class="outline-text-3" id="text-orgc42fbe2">
+<div id="outline-container-org73df58b" class="outline-3">
+<h3 id="org73df58b">Strings one character at a time</h3>
+<div class="outline-text-3" id="text-org73df58b">
 </div>
-<div id="outline-container-orgc511425" class="outline-4">
-<h4 id="orgc511425">Summary</h4>
-<div class="outline-text-4" id="text-orgc511425">
+<div id="outline-container-orga6c2702" class="outline-4">
+<h4 id="orga6c2702">Summary</h4>
+<div class="outline-text-4" id="text-orga6c2702">
 <p>
 If you just want to go through the string from start to end then you can
 use a simple range loop, this will present the characters one at a time
@@ -305,9 +305,9 @@ fmt.Printf("%c\n", r[4])
 </div>
 </div>
 
-<div id="outline-container-orge29d685" class="outline-4">
-<h4 id="orge29d685">Discussion</h4>
-<div class="outline-text-4" id="text-orge29d685">
+<div id="outline-container-org0ab511a" class="outline-4">
+<h4 id="org0ab511a">Discussion</h4>
+<div class="outline-text-4" id="text-org0ab511a">
 <p>
 Let's establish what we mean by 'character'. In Go a string
 is a sequence of bytes but this is not what we are talking about. By
@@ -388,17 +388,17 @@ pi.
 </div>
 </div>
 </div>
-<div id="outline-container-orgaa4c9aa" class="outline-3">
-<h3 id="orgaa4c9aa">Substrings</h3>
-<div class="outline-text-3" id="text-orgaa4c9aa">
+<div id="outline-container-org5083701" class="outline-3">
+<h3 id="org5083701">Substrings</h3>
+<div class="outline-text-3" id="text-org5083701">
 <p>
 Go offers several ways of extracting substrings but you need to
 understand strings and how they are encoded to know which is best.
 </p>
 </div>
-<div id="outline-container-orgebda28b" class="outline-4">
-<h4 id="orgebda28b">Summary</h4>
-<div class="outline-text-4" id="text-orgebda28b">
+<div id="outline-container-org0f43e8b" class="outline-4">
+<h4 id="org0f43e8b">Summary</h4>
+<div class="outline-text-4" id="text-org0f43e8b">
 <p>
 To get the last character of a string you will need to convert it into a
 slice of runes and then take the last element of that slice as follows:
@@ -427,9 +427,9 @@ order to print it.
 </div>
 </div>
 
-<div id="outline-container-org8168c75" class="outline-4">
-<h4 id="org8168c75">Discussion</h4>
-<div class="outline-text-4" id="text-org8168c75">
+<div id="outline-container-org9625c28" class="outline-4">
+<h4 id="org9625c28">Discussion</h4>
+<div class="outline-text-4" id="text-org9625c28">
 <p>
 You can take a substring in a number of ways but you need to be aware of
 the distinction between bytes and runes. A string is an array of bytes
@@ -460,9 +460,9 @@ as there is even a single multi-byte rune.
 </div>
 </div>
 
-<div id="outline-container-org2b94a57" class="outline-4">
-<h4 id="org2b94a57">References</h4>
-<div class="outline-text-4" id="text-org2b94a57">
+<div id="outline-container-org3d1b4b7" class="outline-4">
+<h4 id="org3d1b4b7">References</h4>
+<div class="outline-text-4" id="text-org3d1b4b7">
 <p>
 see the standard packages <a href="https://pkg.go.dev/unicode/utf8">unicode/utf8</a>, <a href="https://pkg.go.dev/strings">strings</a> and <a href="https://pkg.go.dev/regexp">regexp</a> and the
 Go blog entry by Rob Pike <a href="https://blog.golang.org/strings">Strings, bytes, runes and characters in Go</a>.
@@ -470,24 +470,34 @@ Go blog entry by Rob Pike <a href="https://blog.golang.org/strings">Strings, byt
 </div>
 </div>
 </div>
-<div id="outline-container-org80321fb" class="outline-3">
-<h3 id="org80321fb">Splitting a string into words</h3>
-<div class="outline-text-3" id="text-org80321fb">
+<div id="outline-container-org027518a" class="outline-3">
+<h3 id="org027518a">Splitting a string into words</h3>
+<div class="outline-text-3" id="text-org027518a">
 </div>
-<div id="outline-container-org8e2ba9f" class="outline-4">
-<h4 id="org8e2ba9f">Summary</h4>
-<div class="outline-text-4" id="text-org8e2ba9f">
+<div id="outline-container-org205bcda" class="outline-4">
+<h4 id="org205bcda">Summary</h4>
+<div class="outline-text-4" id="text-org205bcda">
 <p>
-The simplest way is to use the Split function from the strings package to
+The simplest way is to use the Fields function from the strings package to
 divide the string up around spaces, as follows:
+</p>
+<div class="org-src-container">
+<pre class="src src-go">words := strings.Fields("The quality of mercy")
+fmt.Printf("%q\n", words)
+</pre>
+</div>
+
+<p>
+Alternatively you can use the strings.Split function:
 </p>
 <div class="org-src-container">
 <pre class="src src-go">words := strings.Split("The quality of mercy", " ")
 fmt.Printf("%q\n", words)
 </pre>
 </div>
+
 <p>
-A better way, though slower, is to use the regexp package. Like this:
+Finally, you can use the regexp package. Like this:
 </p>
 <div class="org-src-container">
 <pre class="src src-go">re := regexp.MustCompile(`\s+`)
@@ -495,74 +505,76 @@ words := re.Split("The quality of mercy", -1)
 fmt.Printf("%q\n", words)
 </pre>
 </div>
+
 <p>
 Note that you must pass the Split method a final parameter of -1 so that
 it will return all the substrings.
 </p>
 </div>
 </div>
-<div id="outline-container-orgf8bb12d" class="outline-4">
-<h4 id="orgf8bb12d">Discussion</h4>
-<div class="outline-text-4" id="text-orgf8bb12d">
+
+<div id="outline-container-org2bbbe77" class="outline-4">
+<h4 id="org2bbbe77">Discussion</h4>
+<div class="outline-text-4" id="text-org2bbbe77">
 <p>
 If you have run these code fragments in gosh you will notice that they
-both produce the same results so why do I say that the regexp version is
-better. To understand this let's take a look at how these approaches work
-with a different string. First let's try a string with multiple spaces.
-First with the strings version:
+all produce the same results so what's the difference. To understand this
+let's take a look at how these approaches work with a different
+string. Let's try a string with multiple spaces and some non-space
+whitespace. First with the strings.Field version:
 </p>
 <div class="org-src-container">
-<pre class="src src-go">words := strings.Split("The quality of  mercy", " ")
+<pre class="src src-go">words := strings.Fields("The quality  of mercy\nis not strained ")
 fmt.Printf("%q\n", words)
 </pre>
 </div>
+
+<p>
+Now with strings.Split
+</p>
+<div class="org-src-container">
+<pre class="src src-go">words := strings.Split("The quality of  mercy\nis not strained ", " ")
+fmt.Printf("%q\n", words)
+</pre>
+</div>
+
 <p>
 And using the regexp version:
 </p>
 <div class="org-src-container">
 <pre class="src src-go">re := regexp.MustCompile(`\s+`)
-words := re.Split("The quality of  mercy", -1)
+words := re.Split("The quality of  mercy\nis not strained ", -1)
 fmt.Printf("%q\n", words)
 </pre>
 </div>
+
 <p>
-If you run these you'll see that the strings version produces an extra,
-empty word between "of" and "mercy". Let's try again with another string.
-</p>
-<div class="org-src-container">
-<pre class="src src-go">words := strings.Split("The quality of  mercy\n\tis not strained,\n"+
-			"it droppeth as the\n\tgentle rain from heaven", " ")
-fmt.Printf("%q\n", words)
-</pre>
-</div>
-<p>
-And using the regexp version:
-</p>
-<div class="org-src-container">
-<pre class="src src-go">re := regexp.MustCompile(`\s+`)
-words := re.Split("The quality of  mercy\n\tis not strained,\n"+
-			"it droppeth as the\n\tgentle rain from heaven", -1)
-fmt.Printf("%q\n", words)
-</pre>
-</div>
-<p>
-You'll see from these examples that the regexp version does much better
-than the strings version but it's still not perfect, it includes the
-punctuation at the end of "strained,". We can improve this but we'll
-discuss it further when we talk about regular expressions.
+If you run these you'll see that the strings.Fields version yields only
+non-empty strings separated by one or more whitespace characters, the
+strings.Split version returns any string separated by a single space
+character and the regexp.Split version returns strings (possibly empty)
+separated by one or more whitespace characters.
 </p>
 
 <p>
-The disadvantages with the regexp approach are that there's a little more
-code needed (an extra line), you need to understand regular expressions
-and the Split method is a bit more complicated to use - it's like the
-SplitN function from the strings package.
+The disadvantages with the regexp approach are that it's slower, there's
+a little more code needed (an extra line), you need to understand regular
+expressions and the Split method is a bit more complicated to use - it's
+like the SplitN function from the strings package. So why is it presented
+here? Regular expressions are very powerful and can do a lot more than
+this so they are introduced here to make you aware of them.
+</p>
+
+<p>
+The strings package also has a FieldsFunc function that allows you to
+provide a function that will categorise the characters (strings.Fields
+uses this if the string contains non-ASCII characters)
 </p>
 </div>
 </div>
-<div id="outline-container-org66bfc83" class="outline-4">
-<h4 id="org66bfc83">References</h4>
-<div class="outline-text-4" id="text-org66bfc83">
+<div id="outline-container-org7a0e6f6" class="outline-4">
+<h4 id="org7a0e6f6">References</h4>
+<div class="outline-text-4" id="text-org7a0e6f6">
 <p>
 See the standard packages  <a href="https://pkg.go.dev/strings">strings</a> and <a href="https://pkg.go.dev/regexp">regexp</a>.
 </p>
@@ -573,7 +585,7 @@ See the standard packages  <a href="https://pkg.go.dev/strings">strings</a> and 
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Nick Wells</p>
-<p class="date">Created: 2021-06-12 Sat 18:01</p>
+<p class="date">Created: 2021-06-22 Tue 14:19</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
