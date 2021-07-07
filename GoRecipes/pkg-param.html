@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-07-07 Wed 19:03 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Go Recipes - The param package</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Nick Wells" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+<script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Go Recipes - The param package</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org4a7c492">The param package</a>
+<ul>
+<li><a href="#org56ffa7b">Help</a>
+<ul>
+<li><a href="#org439f04e">Summary</a></li>
+</ul>
+</li>
+<li><a href="#org1aebbcd">Applying a parameter every time your program runs</a>
+<ul>
+<li><a href="#org194a038">Summary</a></li>
+<li><a href="#orge7fe149">Discussion</a></li>
+</ul>
+</li>
+<li><a href="#org083ce33">Command line parameter completion</a>
+<ul>
+<li><a href="#org62f5af5">Summary</a></li>
+</ul>
+</li>
+<li><a href="#orgdba1d32">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org4a7c492" class="outline-2">
+<h2 id="org4a7c492">The param package</h2>
+<div class="outline-text-2" id="text-org4a7c492">
+<p>
+All the programs under github.com/nickwells use a common package for
+handling parameters. This package is called <a href="https://pkg.go.dev/github.com/nickwells/param.mod/v5/param">param</a> and it offers a range of
+features to make it easier to use the programs.
+</p>
+
+<p>
+For other recipes <a href="gorecipes.html">see here</a>.
+</p>
+</div>
+
+<div id="outline-container-org56ffa7b" class="outline-3">
+<h3 id="org56ffa7b">Help</h3>
+<div class="outline-text-3" id="text-org56ffa7b">
+</div>
+<div id="outline-container-org439f04e" class="outline-4">
+<h4 id="org439f04e">Summary</h4>
+<div class="outline-text-4" id="text-org439f04e">
+<p>
+The param package allows the programmer to generate a comprehensive
+manual. This manual can be accessed through the common parameters that
+param provides. In addition to sections describing the available
+parameters, the manual can also have sections of notes describing
+features of the program, examples of program usage and references to
+other programs.
+</p>
+
+<p>
+The following gives the standard help message for a command called prog:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">prog -help
+</pre>
+</div>
+
+<p>
+For the complete help message:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">prog -help-full
+</pre>
+</div>
+
+<p>
+You can get help on individual parameters; this can be useful if you just
+want to know what a single parameter does. This gives help just for the
+help parameter itself:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">prog -help-param help
+</pre>
+</div>
+
+<p>
+You can get help on groups of parameters; this gives help just for the
+collection of common help parameters:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">prog -help-group common.params-help
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1aebbcd" class="outline-3">
+<h3 id="org1aebbcd">Applying a parameter every time your program runs</h3>
+<div class="outline-text-3" id="text-org1aebbcd">
+</div>
+<div id="outline-container-org194a038" class="outline-4">
+<h4 id="org194a038">Summary</h4>
+<div class="outline-text-4" id="text-org194a038">
+<p>
+if you want to run your program with a set of common parameters every
+time you can put these parameters in a configuration file or in
+environment variables. To see if your program has any alternative
+parameter sources defined, run it as follows.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">prog -help-show sources
+</pre>
+</div>
+
+<p>
+Note that parameter names in configuration files don't start with a
+leading dash. Any environment variables will start with a
+program-specific prefix and any dashes in the parameter name will be
+replaced with an underscore.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge7fe149" class="outline-4">
+<h4 id="orge7fe149">Discussion</h4>
+<div class="outline-text-4" id="text-orge7fe149">
+<p>
+You add parameters to the configuration file, one per line, with the
+parameter name (no leading dash) at the start of the line followed by an
+equals ("=") and then the parameter value. If the parameter does not take
+a value you can just give the parameter name. Blank lines are ignored and
+white space around the parts of the line are ignored. You can comment the
+file: any text from a "#" to the end of line is ignored. You can also
+keep configuration parameters in other files and import them with an
+@include directive. This might be more useful for commands with a lot
+more configuration parameters especially ones shared between multiple
+programs.
+</p>
+
+<p>
+At first it might seem that the configuration file pathnames are
+unnecessarily long but they are chosen to ensure uniqueness when each
+program may potentially have its own configuration file and other
+competing naming systems might be in use. The directories holding the
+files are named for the Go module name and the base directories are named
+according to the XDG spec.
+</p>
+
+<p>
+All the Go programs under github.com/nickwells use the same standard for
+configuration file naming, they are of the form:
+</p>
+
+<p>
+XDG-config-directory / Go-module / program-or-package / common.cfg
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org083ce33" class="outline-3">
+<h3 id="org083ce33">Command line parameter completion</h3>
+<div class="outline-text-3" id="text-org083ce33">
+<p>
+Most modern shells offer command-specific parameter completion at the
+command prompt, the param package can help set this up.
+</p>
+</div>
+
+<div id="outline-container-org62f5af5" class="outline-4">
+<h4 id="org62f5af5">Summary</h4>
+<div class="outline-text-4" id="text-org62f5af5">
+<p>
+If you are using zsh you can get your program to generate the parameter
+expansion file to support this. To find out more details run your program
+as follows:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">prog -help-group common.params-completion
+</pre>
+</div>
+
+<p>
+You will only need to generate the file once though you might want to
+repeat this (replaceing the old completion file with a new one) when you
+upgrade your program to a more recent version with more parameters.
+</p>
+
+<p>
+If you want to generate a new completions file or replace an existing one
+you will also need to specify where the completion file should be
+written.
+</p>
+
+<p>
+Note that there is a single configuration file for parameter completion
+that is shared between all programs using the
+github.com/nickwells/param.mod/v5/param package. You can set the
+completions directory once in that file and then you won't need to set it
+for each program when you are building the completion rules.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdba1d32" class="outline-3">
+<h3 id="orgdba1d32">Troubleshooting</h3>
+<div class="outline-text-3" id="text-orgdba1d32">
+<p>
+If a program has several configuration files and environment prefixes that
+can be used to set parameters it can be hard to understand what parameters
+are being set and where. This can make you program behaviour hard to
+understand. Another problem can arise when you have configuration files
+shared between several programs. The param package offers some standard
+parameters to help you debug this.
+</p>
+
+<p>
+The first parameter that you might find useful shows if and where the
+available parameters have been set. Run your program as follows:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">prog -params-show-where-set
+</pre>
+</div>
+
+<p>
+If you have a configuration file shared between programs (which can be
+useful when you have a suite of programs which share some configuration)
+it can happen that you have misspelled some parameter names. To identify
+unused parameters run your program as follows:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">prog -params-show-unused
+</pre>
+</div>
+
+<p>
+You can also use the common parameters to control the behaviour around
+error handling.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Nick Wells</p>
+<p class="date">Created: 2021-07-07 Wed 19:03</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
