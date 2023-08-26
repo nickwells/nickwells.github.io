@@ -3,14 +3,14 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2021-07-07 Wed 19:15 -->
+<!-- 2023-08-26 Sat 14:10 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Go Recipes - Gosh Tips</title>
-<meta name="generator" content="Org mode" />
 <meta name="author" content="Nick Wells" />
-<style type="text/css">
- <!--/*--><![CDATA[/*><!--*/
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
   .title  { text-align: center;
              margin-bottom: .2em; }
   .subtitle { text-align: center;
@@ -31,8 +31,9 @@
   #postamble p, #preamble p { font-size: 90%; margin: .2em; }
   p.verse { margin-left: 3%; }
   pre {
-    border: 1px solid #ccc;
-    box-shadow: 3px 3px 3px #eee;
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
     padding: 8pt;
     font-family: monospace;
     overflow: auto;
@@ -41,21 +42,21 @@
   pre.src {
     position: relative;
     overflow: auto;
-    padding-top: 1.2em;
   }
   pre.src:before {
     display: none;
     position: absolute;
-    background-color: white;
-    top: -10px;
-    right: 10px;
+    top: -8px;
+    right: 12px;
     padding: 3px;
-    border: 1px solid black;
+    color: #555;
+    background-color: #f2f2f299;
   }
   pre.src:hover:before { display: inline; margin-top: 14px;}
   /* Languages per Org manual */
   pre.src-asymptote:before { content: 'Asymptote'; }
   pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
   pre.src-C:before { content: 'C'; }
   /* pre.src-C++ doesn't work in CSS */
   pre.src-clojure:before { content: 'Clojure'; }
@@ -190,8 +191,7 @@
     { font-size: 10px; font-weight: bold; white-space: nowrap; }
   .org-info-js_search-highlight
     { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { width: 90%; }
-  /*]]>*/-->
+  .org-svg { }
 </style>
 <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
 <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
@@ -199,101 +199,79 @@
 <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
 <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
-<script type="text/javascript">
-// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
-<!--/*--><![CDATA[/*><!--*/
-     function CodeHighlightOn(elem, id)
-     {
-       var target = document.getElementById(id);
-       if(null != target) {
-         elem.classList.add("code-highlighted");
-         target.classList.add("code-highlighted");
-       }
-     }
-     function CodeHighlightOff(elem, id)
-     {
-       var target = document.getElementById(id);
-       if(null != target) {
-         elem.classList.remove("code-highlighted");
-         target.classList.remove("code-highlighted");
-       }
-     }
-    /*]]>*///-->
-// @license-end
-</script>
 </head>
 <body>
-<div id="content">
+<div id="content" class="content">
 <h1 class="title">Go Recipes - Gosh Tips</h1>
-<div id="table-of-contents">
+<div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
-<div id="text-table-of-contents">
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgd6b9cf7">Gosh Tips</a>
+<li><a href="#org4b67332">Gosh Tips</a>
 <ul>
-<li><a href="#org3bfd73b">Installing gosh</a>
+<li><a href="#orge18c00c">Installing gosh</a>
 <ul>
-<li><a href="#orgab50cbe">Summary</a></li>
-<li><a href="#orgfd2df64">Discussion</a></li>
+<li><a href="#org564a6ff">Summary</a></li>
+<li><a href="#orgb0524d6">Discussion</a></li>
 </ul>
 </li>
-<li><a href="#orgf4692a6">Getting help</a></li>
-<li><a href="#org4f6d450">Running code</a>
+<li><a href="#org6392865">Getting help</a></li>
+<li><a href="#orga321afc">Running code</a>
 <ul>
-<li><a href="#org7b0d8a3">Summary</a></li>
-<li><a href="#org37c5946">Discussion</a></li>
+<li><a href="#org8cadb68">Summary</a></li>
+<li><a href="#org0a3d8ff">Discussion</a></li>
 </ul>
 </li>
-<li><a href="#orgd3353cc">Code sections</a>
+<li><a href="#orgea2ccd5">Code sections</a>
 <ul>
-<li><a href="#org806d99e">Summary</a></li>
+<li><a href="#org3984413">Summary</a></li>
 </ul>
 </li>
-<li><a href="#org32e5412">Shortcuts for printing</a>
+<li><a href="#orgf192fd7">Shortcuts for printing</a>
 <ul>
-<li><a href="#org506d10c">Summary</a></li>
+<li><a href="#org74e818a">Summary</a></li>
 </ul>
 </li>
-<li><a href="#orgf246a7a">Snippets</a>
+<li><a href="#orgfca21d1">Snippets</a>
 <ul>
-<li><a href="#org6bd9ccd">Summary</a></li>
+<li><a href="#org1742ef5">Summary</a></li>
 </ul>
 </li>
-<li><a href="#orged3dfd8">Looping over input</a>
+<li><a href="#org7c71e89">Looping over input</a>
 <ul>
-<li><a href="#org0aa3bae">Summary</a></li>
+<li><a href="#org3a1d40f">Summary</a></li>
 </ul>
 </li>
-<li><a href="#org062058c">Missing goimports command</a>
+<li><a href="#org1eb5cf9">Missing goimports command</a>
 <ul>
-<li><a href="#org820e9b3">Summary</a></li>
-<li><a href="#org070cc05">Discussion</a></li>
+<li><a href="#org9ddcd12">Summary</a></li>
+<li><a href="#orga582f16">Discussion</a></li>
 </ul>
 </li>
-<li><a href="#orgbc30efe">goimports isn't finding my package</a>
+<li><a href="#org07703f9">goimports isn't finding my package</a>
 <ul>
-<li><a href="#orgcb9cdd3">Summary</a></li>
+<li><a href="#orgc965f47">Summary</a></li>
 </ul>
 </li>
-<li><a href="#orgac29c30">Troubleshooting the generated program</a>
+<li><a href="#orgdbc9daa">Troubleshooting the generated program</a>
 <ul>
-<li><a href="#orgd329610">Summary</a></li>
+<li><a href="#org2fde4be">Summary</a></li>
 </ul>
 </li>
-<li><a href="#org3a776ec">What is gosh doing</a>
+<li><a href="#orgfd0a898">What is gosh doing</a>
 <ul>
-<li><a href="#orgcded372">Summary</a></li>
+<li><a href="#org7419a3d">Summary</a></li>
 </ul>
 </li>
-<li><a href="#org8a4b95a">Useful shell aliases</a>
+<li><a href="#orgc292613">Useful shell aliases</a>
 <ul>
-<li><a href="#org473b316">Summary</a></li>
+<li><a href="#orgc8e264e">Summary</a></li>
 </ul>
 </li>
-<li><a href="#org6e5bc4c">Using gosh in shebang scripts</a>
+<li><a href="#org0a15705">Using gosh in shebang scripts</a>
 <ul>
-<li><a href="#orgb4bef61">Summary</a></li>
-<li><a href="#orgb3389a1">Discussion</a></li>
+<li><a href="#orgc28b1cb">Summary</a></li>
+<li><a href="#org0c6d0d2">Discussion</a></li>
 </ul>
 </li>
 </ul>
@@ -301,9 +279,9 @@
 </ul>
 </div>
 </div>
-<div id="outline-container-orgd6b9cf7" class="outline-2">
-<h2 id="orgd6b9cf7">Gosh Tips</h2>
-<div class="outline-text-2" id="text-orgd6b9cf7">
+<div id="outline-container-org4b67332" class="outline-2">
+<h2 id="org4b67332">Gosh Tips</h2>
+<div class="outline-text-2" id="text-org4b67332">
 <p>
 These recipes offer some tips for getting the most from gosh and how to fix
 any problems you might have.
@@ -318,13 +296,13 @@ features such as help messages offered through the param package.
 For other recipes <a href="gorecipes.html">see here</a>.
 </p>
 </div>
-<div id="outline-container-org3bfd73b" class="outline-3">
-<h3 id="org3bfd73b">Installing gosh</h3>
-<div class="outline-text-3" id="text-org3bfd73b">
+<div id="outline-container-orge18c00c" class="outline-3">
+<h3 id="orge18c00c">Installing gosh</h3>
+<div class="outline-text-3" id="text-orge18c00c">
 </div>
-<div id="outline-container-orgab50cbe" class="outline-4">
-<h4 id="orgab50cbe">Summary</h4>
-<div class="outline-text-4" id="text-orgab50cbe">
+<div id="outline-container-org564a6ff" class="outline-4">
+<h4 id="org564a6ff">Summary</h4>
+<div class="outline-text-4" id="text-org564a6ff">
 <p>
 To install gosh run the following command:
 </p>
@@ -342,18 +320,19 @@ PATH.
 </div>
 </div>
 
-<div id="outline-container-orgfd2df64" class="outline-4">
-<h4 id="orgfd2df64">Discussion</h4>
-<div class="outline-text-4" id="text-orgfd2df64">
+<div id="outline-container-orgb0524d6" class="outline-4">
+<h4 id="orgb0524d6">Discussion</h4>
+<div class="outline-text-4" id="text-orgb0524d6">
 <p>
 The gosh command is self contained but there are some extras which
 you can also install.
 </p>
 
 <p>
-To install the snippets you will need to choose where you want to copy
-them. Gosh comes with some standard directories which it will search for
-snippets, the following command will list them:
+To install the snippets (some pre-written code fragments) you will need
+to choose where you want to copy them. Gosh comes with some standard
+directories which it will search for snippets, the following command will
+list them:
 </p>
 
 <div class="org-src-container">
@@ -419,9 +398,9 @@ findCmpRm -dir $SD -recursive -extension .orig
 </div>
 </div>
 
-<div id="outline-container-orgf4692a6" class="outline-3">
-<h3 id="orgf4692a6">Getting help</h3>
-<div class="outline-text-3" id="text-orgf4692a6">
+<div id="outline-container-org6392865" class="outline-3">
+<h3 id="org6392865">Getting help</h3>
+<div class="outline-text-3" id="text-org6392865">
 <p>
 Comprehensive help is available by simply passing the help parameter as
 follows:
@@ -438,13 +417,13 @@ follows:
 </div>
 </div>
 
-<div id="outline-container-org4f6d450" class="outline-3">
-<h3 id="org4f6d450">Running code</h3>
-<div class="outline-text-3" id="text-org4f6d450">
+<div id="outline-container-orga321afc" class="outline-3">
+<h3 id="orga321afc">Running code</h3>
+<div class="outline-text-3" id="text-orga321afc">
 </div>
-<div id="outline-container-org7b0d8a3" class="outline-4">
-<h4 id="org7b0d8a3">Summary</h4>
-<div class="outline-text-4" id="text-org7b0d8a3">
+<div id="outline-container-org8cadb68" class="outline-4">
+<h4 id="org8cadb68">Summary</h4>
+<div class="outline-text-4" id="text-org8cadb68">
 <p>
 The 'exec' parameter (or its synonym 'e') gives code for gosh to run.
 </p>
@@ -460,9 +439,9 @@ This will print "Hi!".
 </div>
 </div>
 
-<div id="outline-container-org37c5946" class="outline-4">
-<h4 id="org37c5946">Discussion</h4>
-<div class="outline-text-4" id="text-org37c5946">
+<div id="outline-container-org0a3d8ff" class="outline-4">
+<h4 id="org0a3d8ff">Discussion</h4>
+<div class="outline-text-4" id="text-org0a3d8ff">
 <p>
 You can have multiple lines of code by repeating the exec parameter; they
 are added in the order they appear on the command line. Alternatively you
@@ -497,13 +476,13 @@ code declares a function that prints "Hello, World!" and then calls it.
 </div>
 </div>
 
-<div id="outline-container-orgd3353cc" class="outline-3">
-<h3 id="orgd3353cc">Code sections</h3>
-<div class="outline-text-3" id="text-orgd3353cc">
+<div id="outline-container-orgea2ccd5" class="outline-3">
+<h3 id="orgea2ccd5">Code sections</h3>
+<div class="outline-text-3" id="text-orgea2ccd5">
 </div>
-<div id="outline-container-org806d99e" class="outline-4">
-<h4 id="org806d99e">Summary</h4>
-<div class="outline-text-4" id="text-org806d99e">
+<div id="outline-container-org3984413" class="outline-4">
+<h4 id="org3984413">Summary</h4>
+<div class="outline-text-4" id="text-org3984413">
 <p>
 When gosh builds the code to be run it builds it in sections. There are
 the boilerplate sections that gosh generates itself and there are
@@ -549,13 +528,13 @@ section comes after the loop and the 'exec' section runs inside the loop.
 </div>
 </div>
 
-<div id="outline-container-org32e5412" class="outline-3">
-<h3 id="org32e5412">Shortcuts for printing</h3>
-<div class="outline-text-3" id="text-org32e5412">
+<div id="outline-container-orgf192fd7" class="outline-3">
+<h3 id="orgf192fd7">Shortcuts for printing</h3>
+<div class="outline-text-3" id="text-orgf192fd7">
 </div>
-<div id="outline-container-org506d10c" class="outline-4">
-<h4 id="org506d10c">Summary</h4>
-<div class="outline-text-4" id="text-org506d10c">
+<div id="outline-container-org74e818a" class="outline-4">
+<h4 id="org74e818a">Summary</h4>
+<div class="outline-text-4" id="text-org74e818a">
 <p>
 There are some shortcuts that gosh offers to make it faster and easier to
 write scripts. Printing is a common task and gosh offers some parameters
@@ -584,13 +563,13 @@ see the help message for details.
 </div>
 </div>
 
-<div id="outline-container-orgf246a7a" class="outline-3">
-<h3 id="orgf246a7a">Snippets</h3>
-<div class="outline-text-3" id="text-orgf246a7a">
+<div id="outline-container-orgfca21d1" class="outline-3">
+<h3 id="orgfca21d1">Snippets</h3>
+<div class="outline-text-3" id="text-orgfca21d1">
 </div>
-<div id="outline-container-org6bd9ccd" class="outline-4">
-<h4 id="org6bd9ccd">Summary</h4>
-<div class="outline-text-4" id="text-org6bd9ccd">
+<div id="outline-container-org1742ef5" class="outline-4">
+<h4 id="org1742ef5">Summary</h4>
+<div class="outline-text-4" id="text-org1742ef5">
 <p>
 gosh allows you to have useful code fragments called snippets in files
 and to import them into the program being built. These can either be
@@ -635,13 +614,13 @@ you just what you need.
 </div>
 </div>
 
-<div id="outline-container-orged3dfd8" class="outline-3">
-<h3 id="orged3dfd8">Looping over input</h3>
-<div class="outline-text-3" id="text-orged3dfd8">
+<div id="outline-container-org7c71e89" class="outline-3">
+<h3 id="org7c71e89">Looping over input</h3>
+<div class="outline-text-3" id="text-org7c71e89">
 </div>
-<div id="outline-container-org0aa3bae" class="outline-4">
-<h4 id="org0aa3bae">Summary</h4>
-<div class="outline-text-4" id="text-org0aa3bae">
+<div id="outline-container-org3a1d40f" class="outline-4">
+<h4 id="org3a1d40f">Summary</h4>
+<div class="outline-text-4" id="text-org3a1d40f">
 <p>
 A common task at the command line is to read the standard output of a
 previous command, do something with it and write the transformed input
@@ -686,13 +665,13 @@ them to insert code af=round the inner loop.
 </div>
 </div>
 
-<div id="outline-container-org062058c" class="outline-3">
-<h3 id="org062058c">Missing goimports command</h3>
-<div class="outline-text-3" id="text-org062058c">
+<div id="outline-container-org1eb5cf9" class="outline-3">
+<h3 id="org1eb5cf9">Missing goimports command</h3>
+<div class="outline-text-3" id="text-org1eb5cf9">
 </div>
-<div id="outline-container-org820e9b3" class="outline-4">
-<h4 id="org820e9b3">Summary</h4>
-<div class="outline-text-4" id="text-org820e9b3">
+<div id="outline-container-org9ddcd12" class="outline-4">
+<h4 id="org9ddcd12">Summary</h4>
+<div class="outline-text-4" id="text-org9ddcd12">
 <p>
 If you have goimports properly installed on your machine then gosh will
 run it to format the program before running it. This will add any import
@@ -736,9 +715,9 @@ then you will need to give all the imports explicitly.
 </div>
 </div>
 
-<div id="outline-container-org070cc05" class="outline-4">
-<h4 id="org070cc05">Discussion</h4>
-<div class="outline-text-4" id="text-org070cc05">
+<div id="outline-container-orga582f16" class="outline-4">
+<h4 id="orga582f16">Discussion</h4>
+<div class="outline-text-4" id="text-orga582f16">
 <p>
 The goimports program is a very useful tool - it will format your program
 just like gofmt but it will also find any packages that haven't been
@@ -746,17 +725,38 @@ imported and it will add import statements for them. It can sometimes
 pick the wrong version of a module and so you might want to provide the
 package import explicitly even if it is available.
 </p>
+
+<p>
+If goimports isn't available for some reason, you can use the gopls
+program as an alternative as follows:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">gosh -e 'fmt.Println("Hello")' -formatter gopls -formatter-args="imports","-w"
+</pre>
+</div>
+
+<p>
+The formatter and formatter-args parameters can be added to the gosh
+config file so that they don't need to be repeated every time. To
+find the config file for gosh, you can run it as follows:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">gosh -help-show sources
+</pre>
+</div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgbc30efe" class="outline-3">
-<h3 id="orgbc30efe">goimports isn't finding my package</h3>
-<div class="outline-text-3" id="text-orgbc30efe">
+<div id="outline-container-org07703f9" class="outline-3">
+<h3 id="org07703f9">goimports isn't finding my package</h3>
+<div class="outline-text-3" id="text-org07703f9">
 </div>
-<div id="outline-container-orgcb9cdd3" class="outline-4">
-<h4 id="orgcb9cdd3">Summary</h4>
-<div class="outline-text-4" id="text-orgcb9cdd3">
+<div id="outline-container-orgc965f47" class="outline-4">
+<h4 id="orgc965f47">Summary</h4>
+<div class="outline-text-4" id="text-orgc965f47">
 <p>
 You have goimports installed and you've called some function from the
 package but goimports isn't finding it; what's the problem?
@@ -777,13 +777,13 @@ or else import the package by hand through the -import (or -I) parameter.
 </div>
 </div>
 
-<div id="outline-container-orgac29c30" class="outline-3">
-<h3 id="orgac29c30">Troubleshooting the generated program</h3>
-<div class="outline-text-3" id="text-orgac29c30">
+<div id="outline-container-orgdbc9daa" class="outline-3">
+<h3 id="orgdbc9daa">Troubleshooting the generated program</h3>
+<div class="outline-text-3" id="text-orgdbc9daa">
 </div>
-<div id="outline-container-orgd329610" class="outline-4">
-<h4 id="orgd329610">Summary</h4>
-<div class="outline-text-4" id="text-orgd329610">
+<div id="outline-container-org2fde4be" class="outline-4">
+<h4 id="org2fde4be">Summary</h4>
+<div class="outline-text-4" id="text-org2fde4be">
 <p>
 If the code you supply doesn't behave as you think it should you can
 always examine the generated program. If there is an error while running
@@ -812,7 +812,8 @@ have supplied. The add-comments parameter makes gosh comment the code.
 
 <p>
 Alternatively, you can run gosh with the edit parameter and it will open
-the gosh-generated program in your favourite editor just before running
+the gosh-generated program in your favourite editor (as given by the EDITOR
+environment variable) just before running
 it and you can correct any problems or just take a look at what gets
 generated.
 </p>
@@ -836,13 +837,13 @@ parameter.
 </div>
 </div>
 
-<div id="outline-container-org3a776ec" class="outline-3">
-<h3 id="org3a776ec">What is gosh doing</h3>
-<div class="outline-text-3" id="text-org3a776ec">
+<div id="outline-container-orgfd0a898" class="outline-3">
+<h3 id="orgfd0a898">What is gosh doing</h3>
+<div class="outline-text-3" id="text-orgfd0a898">
 </div>
-<div id="outline-container-orgcded372" class="outline-4">
-<h4 id="orgcded372">Summary</h4>
-<div class="outline-text-4" id="text-orgcded372">
+<div id="outline-container-org7419a3d" class="outline-4">
+<h4 id="org7419a3d">Summary</h4>
+<div class="outline-text-4" id="text-org7419a3d">
 <p>
 If you run gosh as usual but add a "-verbose" parameter it will run the
 program but it will also print out messages explaining the steps it is
@@ -857,13 +858,13 @@ taking and some timing information.
 </div>
 </div>
 
-<div id="outline-container-org8a4b95a" class="outline-3">
-<h3 id="org8a4b95a">Useful shell aliases</h3>
-<div class="outline-text-3" id="text-org8a4b95a">
+<div id="outline-container-orgc292613" class="outline-3">
+<h3 id="orgc292613">Useful shell aliases</h3>
+<div class="outline-text-3" id="text-orgc292613">
 </div>
-<div id="outline-container-org473b316" class="outline-4">
-<h4 id="org473b316">Summary</h4>
-<div class="outline-text-4" id="text-org473b316">
+<div id="outline-container-orgc8e264e" class="outline-4">
+<h4 id="orgc8e264e">Summary</h4>
+<div class="outline-text-4" id="text-orgc8e264e">
 <p>
 Your shell may offer an alias feature so that you can access commands
 more quickly, here are a few suggestions for some aliases that speed up
@@ -886,17 +887,17 @@ alias g.hf="gosh -help-full"		# -help-f
 </div>
 </div>
 </div>
-<div id="outline-container-org6e5bc4c" class="outline-3">
-<h3 id="org6e5bc4c">Using gosh in shebang scripts</h3>
-<div class="outline-text-3" id="text-org6e5bc4c">
+<div id="outline-container-org0a15705" class="outline-3">
+<h3 id="org0a15705">Using gosh in shebang scripts</h3>
+<div class="outline-text-3" id="text-org0a15705">
 <p>
 gosh can be used as the interpreter for shebang scripts, that is
 executable text files with the first line starting '#!'.
 </p>
 </div>
-<div id="outline-container-orgb4bef61" class="outline-4">
-<h4 id="orgb4bef61">Summary</h4>
-<div class="outline-text-4" id="text-orgb4bef61">
+<div id="outline-container-orgc28b1cb" class="outline-4">
+<h4 id="orgc28b1cb">Summary</h4>
+<div class="outline-text-4" id="text-orgc28b1cb">
 <p>
 You can write Go code in a file and put:
 </p>
@@ -913,9 +914,9 @@ script to be built into a main func and run it.
 </div>
 </div>
 
-<div id="outline-container-orgb3389a1" class="outline-4">
-<h4 id="orgb3389a1">Discussion</h4>
-<div class="outline-text-4" id="text-orgb3389a1">
+<div id="outline-container-org0c6d0d2" class="outline-4">
+<h4 id="org0c6d0d2">Discussion</h4>
+<div class="outline-text-4" id="text-org0c6d0d2">
 <p>
 The shebang parameter (you can use exec-file or e-f instead) can be
 preceded by any number of other parameters such as import parameters to
@@ -932,6 +933,24 @@ necessary imports manually.
 <p>
 Similarly you can set the Go command version to use explicitly.
 </p>
+
+<p>
+The best way to pass gosh params to a shebang script is through comments
+at the start of the script. Any line immediately following the '#!' line
+which starts with '#gosh.param:' will be treated like a line in a
+parameter file. The most robust way of writing a shebang script using
+gosh is to add comment lines at the front controlling how it works. Some
+suggested parameters are:
+</p>
+<dl class="org-dl">
+<dt>import</dt><dd>to give the packages to import</dd>
+<dt>no-auto-import</dt><dd>to speed up execution and remove dependency on other tools</dd>
+<dt>no-go-mod-tidy</dt><dd>to speed up execution and remove dependency on other tools</dd>
+<dt>set-go-cmd</dt><dd>to let users without Go in their path to run the script</dd>
+<dt>set-executable-name</dt><dd>to make it easier to find the command in ps listings</dd>
+<dt>no-more-params</dt><dd>to prevent any arguments to the script being passed to gosh</dd>
+<dt>dont-loop-on-args</dt><dd>to stop gosh from looping over the arguments</dd>
+</dl>
 </div>
 </div>
 </div>
@@ -939,7 +958,7 @@ Similarly you can set the Go command version to use explicitly.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Nick Wells</p>
-<p class="date">Created: 2021-07-07 Wed 19:15</p>
+<p class="date">Created: 2023-08-26 Sat 14:10</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

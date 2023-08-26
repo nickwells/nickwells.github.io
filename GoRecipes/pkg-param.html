@@ -3,14 +3,14 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2021-07-07 Wed 19:03 -->
+<!-- 2023-08-26 Sat 21:48 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Go Recipes - The param package</title>
-<meta name="generator" content="Org mode" />
 <meta name="author" content="Nick Wells" />
-<style type="text/css">
- <!--/*--><![CDATA[/*><!--*/
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
   .title  { text-align: center;
              margin-bottom: .2em; }
   .subtitle { text-align: center;
@@ -31,8 +31,9 @@
   #postamble p, #preamble p { font-size: 90%; margin: .2em; }
   p.verse { margin-left: 3%; }
   pre {
-    border: 1px solid #ccc;
-    box-shadow: 3px 3px 3px #eee;
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
     padding: 8pt;
     font-family: monospace;
     overflow: auto;
@@ -41,21 +42,21 @@
   pre.src {
     position: relative;
     overflow: auto;
-    padding-top: 1.2em;
   }
   pre.src:before {
     display: none;
     position: absolute;
-    background-color: white;
-    top: -10px;
-    right: 10px;
+    top: -8px;
+    right: 12px;
     padding: 3px;
-    border: 1px solid black;
+    color: #555;
+    background-color: #f2f2f299;
   }
   pre.src:hover:before { display: inline; margin-top: 14px;}
   /* Languages per Org manual */
   pre.src-asymptote:before { content: 'Asymptote'; }
   pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
   pre.src-C:before { content: 'C'; }
   /* pre.src-C++ doesn't work in CSS */
   pre.src-clojure:before { content: 'Clojure'; }
@@ -190,8 +191,7 @@
     { font-size: 10px; font-weight: bold; white-space: nowrap; }
   .org-info-js_search-highlight
     { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { width: 90%; }
-  /*]]>*/-->
+  .org-svg { }
 </style>
 <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
 <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
@@ -199,63 +199,47 @@
 <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
 <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
-<script type="text/javascript">
-// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
-<!--/*--><![CDATA[/*><!--*/
-     function CodeHighlightOn(elem, id)
-     {
-       var target = document.getElementById(id);
-       if(null != target) {
-         elem.classList.add("code-highlighted");
-         target.classList.add("code-highlighted");
-       }
-     }
-     function CodeHighlightOff(elem, id)
-     {
-       var target = document.getElementById(id);
-       if(null != target) {
-         elem.classList.remove("code-highlighted");
-         target.classList.remove("code-highlighted");
-       }
-     }
-    /*]]>*///-->
-// @license-end
-</script>
 </head>
 <body>
-<div id="content">
+<div id="content" class="content">
 <h1 class="title">Go Recipes - The param package</h1>
-<div id="table-of-contents">
+<div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
-<div id="text-table-of-contents">
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org4a7c492">The param package</a>
+<li><a href="#org15c218d">The param package</a>
 <ul>
-<li><a href="#org56ffa7b">Help</a>
+<li><a href="#orgf895233">Getting started</a>
 <ul>
-<li><a href="#org439f04e">Summary</a></li>
+<li><a href="#orgc765e1c">Summary</a></li>
+<li><a href="#org86a6f8c">Discussion</a></li>
 </ul>
 </li>
-<li><a href="#org1aebbcd">Applying a parameter every time your program runs</a>
+<li><a href="#orga92c6fd">Using the param package to get help</a>
 <ul>
-<li><a href="#org194a038">Summary</a></li>
-<li><a href="#orge7fe149">Discussion</a></li>
+<li><a href="#org65976cf">Summary</a></li>
 </ul>
 </li>
-<li><a href="#org083ce33">Command line parameter completion</a>
+<li><a href="#org3fe0e49">Applying a parameter every time your program runs</a>
 <ul>
-<li><a href="#org62f5af5">Summary</a></li>
+<li><a href="#org1dc8688">Summary</a></li>
+<li><a href="#orge77d309">Discussion</a></li>
 </ul>
 </li>
-<li><a href="#orgdba1d32">Troubleshooting</a></li>
+<li><a href="#orgd274501">Command line parameter completion</a>
+<ul>
+<li><a href="#org381e769">Summary</a></li>
+</ul>
+</li>
+<li><a href="#org66cef5a">Troubleshooting</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org4a7c492" class="outline-2">
-<h2 id="org4a7c492">The param package</h2>
-<div class="outline-text-2" id="text-org4a7c492">
+<div id="outline-container-org15c218d" class="outline-2">
+<h2 id="org15c218d">The param package</h2>
+<div class="outline-text-2" id="text-org15c218d">
 <p>
 All the programs under github.com/nickwells use a common package for
 handling parameters. This package is called <a href="https://pkg.go.dev/github.com/nickwells/param.mod/v5/param">param</a> and it offers a range of
@@ -267,13 +251,88 @@ For other recipes <a href="gorecipes.html">see here</a>.
 </p>
 </div>
 
-<div id="outline-container-org56ffa7b" class="outline-3">
-<h3 id="org56ffa7b">Help</h3>
-<div class="outline-text-3" id="text-org56ffa7b">
+<div id="outline-container-orgf895233" class="outline-3">
+<h3 id="orgf895233">Getting started</h3>
+<div class="outline-text-3" id="text-orgf895233">
 </div>
-<div id="outline-container-org439f04e" class="outline-4">
-<h4 id="org439f04e">Summary</h4>
-<div class="outline-text-4" id="text-org439f04e">
+<div id="outline-container-orgc765e1c" class="outline-4">
+<h4 id="orgc765e1c">Summary</h4>
+<div class="outline-text-4" id="text-orgc765e1c">
+<p>
+To use the param package you must first create a set of parameters (a
+PSet), populating the parameters you want to add and otherwise setting
+the default behaviour. Once you have a PSet you can call Parse on it to
+set the parameter values ready for the rest of the program to use
+them. As follows:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">var goodbye bool
+func addParams(ps *param.PSet) error {
+      ps.Add("goodbye",
+                  psetter.Bool{Value: &amp;goodbye},
+                  "Say Goodbye")
+      return nil
+}
+</pre>
+</div>
+
+<p>
+If you are using gosh to run the code you will need to use the 'global'
+parameter for the code shown above.
+</p>
+
+<p>
+Then at the start of your main func add the following lines to construct
+the parameter set, parse the program arguments and use the values set.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">ps := paramset.NewOrDie(addParams)
+ps.Parse()
+
+if goodbye {
+        fmt.Println("Goodbye, World!")
+} else {
+        fmt.Println("Hello, World!")
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org86a6f8c" class="outline-4">
+<h4 id="org86a6f8c">Discussion</h4>
+<div class="outline-text-4" id="text-org86a6f8c">
+<p>
+The recommended way of creating a parameter set is through the paramset package which
+will create a PSet with the standard helper set. This in turn
+prepopulates the standard parameters. These standard parameters provide
+help on the parameters available, program usage descriptions and
+parameters to control the behaviour of the standard parsing and
+troubleshooting.
+</p>
+
+<p>
+Note the use of the paramset.NewOrDie func; this checks for errors when
+constructing the parameter set and if an error is found it will report it
+and exit. If you want to handle errors yourself you can use the
+paramset.New func which will return a PSet and an error which you should
+check to make sure is nil before proceding. Any error returned when
+constructing the parameter set is non-recoverable and should be treated
+as a fatal error.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga92c6fd" class="outline-3">
+<h3 id="orga92c6fd">Using the param package to get help</h3>
+<div class="outline-text-3" id="text-orga92c6fd">
+</div>
+<div id="outline-container-org65976cf" class="outline-4">
+<h4 id="org65976cf">Summary</h4>
+<div class="outline-text-4" id="text-org65976cf">
 <p>
 The param package allows the programmer to generate a comprehensive
 manual. This manual can be accessed through the common parameters that
@@ -325,13 +384,13 @@ collection of common help parameters:
 </div>
 </div>
 
-<div id="outline-container-org1aebbcd" class="outline-3">
-<h3 id="org1aebbcd">Applying a parameter every time your program runs</h3>
-<div class="outline-text-3" id="text-org1aebbcd">
+<div id="outline-container-org3fe0e49" class="outline-3">
+<h3 id="org3fe0e49">Applying a parameter every time your program runs</h3>
+<div class="outline-text-3" id="text-org3fe0e49">
 </div>
-<div id="outline-container-org194a038" class="outline-4">
-<h4 id="org194a038">Summary</h4>
-<div class="outline-text-4" id="text-org194a038">
+<div id="outline-container-org1dc8688" class="outline-4">
+<h4 id="org1dc8688">Summary</h4>
+<div class="outline-text-4" id="text-org1dc8688">
 <p>
 if you want to run your program with a set of common parameters every
 time you can put these parameters in a configuration file or in
@@ -353,20 +412,23 @@ replaced with an underscore.
 </div>
 </div>
 
-<div id="outline-container-orge7fe149" class="outline-4">
-<h4 id="orge7fe149">Discussion</h4>
-<div class="outline-text-4" id="text-orge7fe149">
+<div id="outline-container-orge77d309" class="outline-4">
+<h4 id="orge77d309">Discussion</h4>
+<div class="outline-text-4" id="text-orge77d309">
 <p>
 You add parameters to the configuration file, one per line, with the
 parameter name (no leading dash) at the start of the line followed by an
 equals ("=") and then the parameter value. If the parameter does not take
 a value you can just give the parameter name. Blank lines are ignored and
-white space around the parts of the line are ignored. You can comment the
-file: any text from a "#" to the end of line is ignored. You can also
-keep configuration parameters in other files and import them with an
-@include directive. This might be more useful for commands with a lot
-more configuration parameters especially ones shared between multiple
-programs.
+white space around the parts of the line are ignored.
+</p>
+
+<p>
+You can comment the file: any text from a "#" to the end of line is
+ignored. You can also keep configuration parameters in other files and
+import them with an @include directive. This might be more useful for
+commands with a lot of configuration parameters especially ones shared
+between multiple programs.
 </p>
 
 <p>
@@ -390,18 +452,18 @@ XDG-config-directory / Go-module / program-or-package / common.cfg
 </div>
 </div>
 
-<div id="outline-container-org083ce33" class="outline-3">
-<h3 id="org083ce33">Command line parameter completion</h3>
-<div class="outline-text-3" id="text-org083ce33">
+<div id="outline-container-orgd274501" class="outline-3">
+<h3 id="orgd274501">Command line parameter completion</h3>
+<div class="outline-text-3" id="text-orgd274501">
 <p>
 Most modern shells offer command-specific parameter completion at the
 command prompt, the param package can help set this up.
 </p>
 </div>
 
-<div id="outline-container-org62f5af5" class="outline-4">
-<h4 id="org62f5af5">Summary</h4>
-<div class="outline-text-4" id="text-org62f5af5">
+<div id="outline-container-org381e769" class="outline-4">
+<h4 id="org381e769">Summary</h4>
+<div class="outline-text-4" id="text-org381e769">
 <p>
 If you are using zsh you can get your program to generate the parameter
 expansion file to support this. To find out more details run your program
@@ -414,8 +476,8 @@ as follows:
 </div>
 
 <p>
-You will only need to generate the file once though you might want to
-repeat this (replaceing the old completion file with a new one) when you
+You only need to generate the file once though you should
+repeat this (replacing the old completion file with a new one) when you
 upgrade your program to a more recent version with more parameters.
 </p>
 
@@ -436,9 +498,9 @@ for each program when you are building the completion rules.
 </div>
 </div>
 
-<div id="outline-container-orgdba1d32" class="outline-3">
-<h3 id="orgdba1d32">Troubleshooting</h3>
-<div class="outline-text-3" id="text-orgdba1d32">
+<div id="outline-container-org66cef5a" class="outline-3">
+<h3 id="org66cef5a">Troubleshooting</h3>
+<div class="outline-text-3" id="text-org66cef5a">
 <p>
 If a program has several configuration files and environment prefixes that
 can be used to set parameters it can be hard to understand what parameters
@@ -480,7 +542,7 @@ error handling.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Nick Wells</p>
-<p class="date">Created: 2021-07-07 Wed 19:03</p>
+<p class="date">Created: 2023-08-26 Sat 21:48</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
